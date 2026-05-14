@@ -154,6 +154,23 @@ footer {
   pointer-events: none;
 }
 
+.philosophy__brand {
+  position: absolute;
+  top: clamp(20px, 3vh, 32px);
+  left: clamp(24px, 5vw, 48px);
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.philosophy__brand.is-visible {
+  opacity: 1;
+}
+
+.philosophy__brand .wordmark {
+  color: #ffffff;
+}
+
 .philosophy__overlay {
   position: absolute;
   right: clamp(24px, 5vw, 56px);
@@ -731,7 +748,8 @@ footer {
     min-height: 100vh;
   }
 
-  .hero__brand {
+  .hero__brand,
+  .philosophy__brand {
     top: 20px;
     left: 20px;
   }

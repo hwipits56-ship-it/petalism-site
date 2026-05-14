@@ -85,6 +85,9 @@
     <!-- 페이지 2: Philosophy (fixed, z-index 5 — Hero 뒤에 있다가 드러남) -->
     <section class="philosophy">
       <div class="philosophy__bg" data-philosophy-bg></div>
+      <header class="philosophy__brand">
+        <p class="wordmark">Petalism</p>
+      </header>
       <div class="philosophy__overlay fade-in">
         <p class="philosophy__label">PETALISM STUDIO</p>
         <h2 class="philosophy__heading">이미 있던 아름다움을 발견하는 일</h2>
@@ -179,9 +182,9 @@
         const philosophyOverlay = philosophy
           ? philosophy.querySelector(".philosophy__overlay")
           : null;
-        const titleBlock = hero.querySelector(".hero__title-block");
-        const brand = hero.querySelector(".hero__brand");
-        const carousel = hero.querySelector(".carousel");
+        const philosophyBrand = philosophy
+          ? philosophy.querySelector(".philosophy__brand")
+          : null;
 
         function ease(t) {
           return t < 0.5
@@ -194,41 +197,23 @@
           const y = window.scrollY;
           const vh = window.innerHeight;
 
-          // Hero: 0 ~ 95vh 동안 위로 사라짐
+          // Hero: 0 ~ 95vh 동안 위로 슬라이드 (페이드 X, translateY만)
           const heroRaw = Math.max(0, Math.min(1, y / (vh * 0.95)));
           const heroProgress = ease(heroRaw);
 
           hero.style.transform =
             "translate3d(0," + (-heroProgress * 100) + "%,0)";
-          hero.style.opacity = String(Math.max(0, 1 - heroProgress * 0.9));
 
-          if (titleBlock) {
-            titleBlock.style.opacity = String(
-              Math.max(0, 1 - heroProgress * 1.5),
-            );
-            titleBlock.style.transform =
-              "scale(" + (1 - heroProgress * 0.08) + ")";
+          // Philosophy brand·overlay: Hero 거의 다 사라진 후 페이드인 (heroRaw 0.85 ~ 1.0)
+          const philosophyVisible = heroRaw >= 0.85;
+          if (philosophyBrand) {
+            philosophyBrand.classList.toggle("is-visible", philosophyVisible);
           }
-          if (brand) {
-            brand.style.opacity = String(
-              Math.max(0, 1 - heroProgress * 1.2),
-            );
-          }
-          if (carousel) {
-            carousel.style.transform =
-              "translate3d(0," + (heroProgress * 25) + "%,0)";
-          }
-
-          // Philosophy overlay 텍스트: Hero 거의 다 사라진 후 페이드인 (heroRaw 0.85 ~ 1.0)
           if (philosophyOverlay) {
-            if (heroRaw >= 0.85) {
-              philosophyOverlay.classList.add("is-visible");
-            } else {
-              philosophyOverlay.classList.remove("is-visible");
-            }
+            philosophyOverlay.classList.toggle("is-visible", philosophyVisible);
           }
 
-          // Philosophy: 95vh ~ 195vh 동안 위로 사라짐
+          // Philosophy: 95vh ~ 195vh 동안 위로 슬라이드 (페이드 X, translateY만)
           if (philosophy) {
             const philStart = vh * 0.95;
             const philRaw = Math.max(
@@ -238,9 +223,6 @@
             const philProgress = ease(philRaw);
             philosophy.style.transform =
               "translate3d(0," + (-philProgress * 100) + "%,0)";
-            philosophy.style.opacity = String(
-              Math.max(0, 1 - philProgress * 0.9),
-            );
           }
         }
         window.addEventListener(
