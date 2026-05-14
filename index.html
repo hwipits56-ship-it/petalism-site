@@ -21,26 +21,27 @@
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
     />
 
-    <!-- 헤드라인 폰트: 영문 EB Garamond + 한글 Noto Serif KR -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Serif+KR:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <!-- 1. Hero — weave 엽서 carousel + 워드마크 -->
+    <!-- 1. Hero — Kinfolk K59 결: 워드마크 상단 작게 + 큰 카피 + carousel -->
     <section class="hero">
+      <header class="hero__brand">
+        <p class="wordmark">Petalism</p>
+      </header>
+
+      <div class="hero__title-block">
+        <h1 class="hero__title">하루를 아름답게<br />기억하는 일.</h1>
+        <p class="hero__subtitle">페탈리즘 스튜디오</p>
+      </div>
+
       <div class="carousel" data-carousel>
         <button
           class="carousel__arrow carousel__arrow--prev"
           data-prev
           aria-label="이전"
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
             <path
               d="M13 4L7 10L13 16"
               stroke="currentColor"
@@ -51,16 +52,14 @@
           </svg>
         </button>
 
-        <div class="carousel__stage" data-stage>
-          <!-- 이미지가 들어가면 자동 렌더. 없으면 placeholder. -->
-        </div>
+        <div class="carousel__stage" data-stage></div>
 
         <button
           class="carousel__arrow carousel__arrow--next"
           data-next
           aria-label="다음"
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
             <path
               d="M7 4L13 10L7 16"
               stroke="currentColor"
@@ -72,12 +71,6 @@
         </button>
 
         <div class="carousel__dots" data-dots></div>
-      </div>
-
-      <div class="hero__copy">
-        <h1 class="wordmark">Petalism</h1>
-        <p class="hero__subtitle">페탈리즘 스튜디오</p>
-        <p class="hero__lead">하루를 아름답게 기억하는 일.</p>
       </div>
     </section>
 

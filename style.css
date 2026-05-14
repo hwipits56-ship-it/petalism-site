@@ -1,3 +1,12 @@
+/* === 가비아 마음결 (로고용) === */
+@font-face {
+  font-family: "GabiaMaeumgyeol";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/GabiaMaeumgyeol.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
 /* === Reset === */
 *,
 *::before,
@@ -14,20 +23,20 @@ html {
   font-feature-settings: "ss03", "tnum";
 }
 
-/* === Tokens — Kinfolk 결 (warm off-white + 깊은 남색 accent) === */
+/* === Tokens — Kinfolk 결 (더 밝은 톤 + 5월 남색) === */
 :root {
   /* 5월 팔레트 */
-  --paper: #f1efe9;       /* 본문 배경 (warm off-white) */
-  --paper-warm: #ebe9e3;  /* 보조 섹션 (살짝 진한 베이지) */
-  --ink: #1f1f1f;          /* 본문 텍스트 */
-  --ink-soft: #4a4a4a;
+  --paper: #f7f5f1; /* 거의 흰색에 가까운 톤 */
+  --paper-warm: #efede7; /* 보조 (대조 섹션) */
+  --ink: #1f1f1f;
+  --ink-soft: #555555;
   --ink-faint: #8a8a8a;
   --ink-pale: #c8c6c0;
-  --navy: #1b2a4e;         /* 5월 accent — 깊은 남색 (로고 결) */
-  --line: #d6d4cc;
+  --navy: #1b2a4e; /* 5월 accent — 깊은 남색 (로고 결) */
+  --line: #dad7d0;
 
-  /* Typography */
-  --font-serif: "Noto Serif KR", "EB Garamond", "Times New Roman", serif;
+  /* Typography — 로고만 가비아 마음결, 나머지 Pretendard */
+  --font-display: "GabiaMaeumgyeol", "Nanum Myeongjo", serif;
   --font-sans: "Pretendard Variable", "Pretendard", -apple-system,
     BlinkMacSystemFont, system-ui, sans-serif;
 }
@@ -38,7 +47,8 @@ body {
   color: var(--ink);
   font-family: var(--font-sans);
   font-weight: 400;
-  line-height: 1.8;
+  line-height: 1.7;
+  font-size: 14px;
 }
 
 a {
@@ -56,24 +66,62 @@ img {
 /* === Section base === */
 section,
 footer {
-  padding: clamp(96px, 14vh, 160px) clamp(24px, 5vw, 64px);
+  padding: clamp(64px, 10vh, 120px) clamp(24px, 5vw, 48px);
 }
 
 /* === 1. Hero === */
 .hero {
   min-height: 100vh;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(48px, 8vh, 96px);
-  padding-top: clamp(60px, 10vh, 100px);
-  padding-bottom: clamp(60px, 10vh, 100px);
+  padding-top: clamp(40px, 6vh, 64px);
 }
 
+.hero__brand {
+  position: absolute;
+  top: clamp(24px, 4vh, 40px);
+  left: clamp(24px, 5vw, 48px);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: var(--navy);
+}
+
+.hero__title-block {
+  text-align: center;
+  margin-bottom: clamp(48px, 8vh, 80px);
+}
+
+.hero__title {
+  font-family: var(--font-sans);
+  font-size: clamp(22px, 3.2vw, 32px);
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.hero__subtitle {
+  margin-top: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* === Carousel === */
 .carousel {
   position: relative;
-  width: min(540px, 80vw);
+  width: min(420px, 75vw);
   aspect-ratio: 3 / 4;
   display: flex;
   align-items: center;
@@ -110,19 +158,20 @@ footer {
   background-color: var(--paper-warm);
   border: 1px solid var(--line);
   color: var(--ink-faint);
-  font-family: var(--font-serif);
-  font-size: 14px;
-  letter-spacing: 0.05em;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.02em;
   text-align: center;
-  padding: 32px;
+  padding: 24px;
+  line-height: 1.6;
 }
 
 .carousel__arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   background: transparent;
   border: none;
   color: var(--ink-soft);
@@ -143,25 +192,25 @@ footer {
 }
 
 .carousel__arrow--prev {
-  left: -56px;
+  left: -48px;
 }
 
 .carousel__arrow--next {
-  right: -56px;
+  right: -48px;
 }
 
 .carousel__dots {
   position: absolute;
-  bottom: -32px;
+  bottom: -24px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .carousel__dot {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
   background-color: var(--ink-pale);
   border: none;
@@ -174,39 +223,6 @@ footer {
   background-color: var(--navy);
 }
 
-.hero__copy {
-  text-align: center;
-  max-width: 560px;
-}
-
-.wordmark {
-  font-family: var(--font-serif);
-  font-size: clamp(52px, 8vw, 96px);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1;
-  color: var(--navy);
-  margin-bottom: 28px;
-}
-
-.hero__subtitle {
-  font-size: 12px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-  margin-bottom: 32px;
-}
-
-.hero__lead {
-  font-family: var(--font-serif);
-  font-size: clamp(18px, 2.2vw, 22px);
-  font-weight: 400;
-  letter-spacing: -0.005em;
-  color: var(--ink);
-  line-height: 1.7;
-  font-style: italic;
-}
-
 /* === 2. 페탈리즘 설명 === */
 .philosophy {
   background-color: var(--paper-warm);
@@ -217,18 +233,18 @@ footer {
 }
 
 .philosophy__inner {
-  max-width: 560px;
+  max-width: 500px;
   width: 100%;
 }
 
 .philosophy__line {
-  font-family: var(--font-serif);
-  font-size: clamp(18px, 2vw, 22px);
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.6vw, 17px);
   font-weight: 400;
   letter-spacing: -0.005em;
-  line-height: 1.85;
+  line-height: 1.9;
   color: var(--ink);
-  margin: clamp(40px, 6vh, 64px) 0;
+  margin: clamp(32px, 5vh, 48px) 0;
 }
 
 .philosophy__line:first-child {
@@ -240,8 +256,8 @@ footer {
 }
 
 .philosophy__figure {
-  margin: clamp(56px, 9vh, 88px) auto;
-  max-width: 440px;
+  margin: clamp(40px, 7vh, 64px) auto;
+  max-width: 380px;
 }
 
 .philosophy__figure img {
@@ -258,24 +274,25 @@ footer {
 
 .works__header {
   text-align: center;
-  margin-bottom: clamp(64px, 10vh, 96px);
+  margin-bottom: clamp(48px, 8vh, 72px);
 }
 
 .works__label {
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 500;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--ink-faint);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .works__title {
-  font-family: var(--font-serif);
-  font-size: clamp(24px, 3vw, 34px);
-  font-weight: 400;
-  letter-spacing: -0.015em;
+  font-family: var(--font-sans);
+  font-size: clamp(18px, 2.2vw, 22px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
   color: var(--ink);
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
 .work {
@@ -283,15 +300,15 @@ footer {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  max-width: 480px;
+  max-width: 360px;
   width: 100%;
-  margin-bottom: clamp(80px, 12vh, 120px);
+  margin-bottom: clamp(56px, 9vh, 88px);
 }
 
 .work__figure {
   width: 100%;
   aspect-ratio: 3 / 4;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   overflow: hidden;
   background-color: var(--paper-warm);
 }
@@ -307,27 +324,27 @@ footer {
 }
 
 .work__name {
-  font-family: var(--font-serif);
-  font-size: clamp(24px, 3vw, 34px);
-  font-weight: 400;
-  letter-spacing: -0.015em;
-  line-height: 1.3;
+  font-family: var(--font-sans);
+  font-size: clamp(18px, 2.2vw, 22px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
   color: var(--navy);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .work__name-en {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 0.85em;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.8em;
   color: var(--ink-soft);
-  margin-left: 8px;
+  margin-left: 6px;
 }
 
 .work__name-note {
   font-family: var(--font-sans);
-  font-size: 0.55em;
-  font-weight: 300;
+  font-size: 0.6em;
+  font-weight: 400;
   color: var(--ink-faint);
   letter-spacing: 0;
   margin-left: 6px;
@@ -335,34 +352,32 @@ footer {
 }
 
 .work__desc {
-  font-family: var(--font-serif);
-  font-size: clamp(16px, 1.9vw, 19px);
+  font-family: var(--font-sans);
+  font-size: clamp(13px, 1.4vw, 15px);
   font-weight: 400;
   color: var(--ink-soft);
   letter-spacing: -0.005em;
   line-height: 1.6;
-  font-style: italic;
 }
 
 .works__coming {
-  font-family: var(--font-serif);
-  font-size: clamp(15px, 1.7vw, 17px);
+  font-family: var(--font-sans);
+  font-size: 13px;
   font-weight: 400;
   color: var(--ink-faint);
-  font-style: italic;
-  margin-top: clamp(24px, 4vh, 48px);
+  margin-top: clamp(16px, 3vh, 32px);
 }
 
 /* === 4. Footer === */
 .footer {
   background-color: var(--paper-warm);
   text-align: center;
-  padding-top: clamp(96px, 14vh, 140px);
-  padding-bottom: clamp(64px, 10vh, 100px);
+  padding-top: clamp(72px, 11vh, 112px);
+  padding-bottom: clamp(48px, 8vh, 80px);
 }
 
 .footer__inner {
-  max-width: 560px;
+  max-width: 500px;
   margin: 0 auto;
 }
 
@@ -370,13 +385,13 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 56px;
+  gap: 10px;
+  margin-bottom: 40px;
 }
 
 .footer__link {
-  font-family: var(--font-serif);
-  font-size: 15px;
+  font-family: var(--font-sans);
+  font-size: 13px;
   font-weight: 400;
   letter-spacing: -0.005em;
   color: var(--ink);
@@ -390,14 +405,14 @@ footer {
 }
 
 .footer__divider {
-  width: 20px;
+  width: 16px;
   height: 1px;
   background-color: var(--line);
-  margin: 0 auto 40px;
+  margin: 0 auto 32px;
 }
 
 .footer__legal {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 400;
   letter-spacing: 0;
   color: var(--ink-faint);
@@ -412,21 +427,28 @@ footer {
 @media (max-width: 720px) {
   section,
   footer {
-    padding: 64px 24px;
+    padding: 56px 20px;
   }
 
   .hero {
-    min-height: auto;
-    padding-top: 48px;
-    padding-bottom: 48px;
+    min-height: 100vh;
+  }
+
+  .hero__brand {
+    top: 20px;
+    left: 20px;
+  }
+
+  .wordmark {
+    font-size: 17px;
   }
 
   .carousel__arrow--prev {
-    left: -8px;
+    left: -4px;
   }
 
   .carousel__arrow--next {
-    right: -8px;
+    right: -4px;
   }
 
   .philosophy__line br,
@@ -435,9 +457,10 @@ footer {
   }
 }
 
-/* === fade-in (가벼운 모션) === */
+/* === fade-in === */
 @media (prefers-reduced-motion: no-preference) {
-  .hero__copy,
+  .hero__title-block,
+  .carousel,
   .philosophy__inner,
   .works__header,
   .work,
@@ -447,8 +470,17 @@ footer {
     animation: fadeIn 1.2s ease forwards;
   }
 
-  .hero__copy {
+  .hero__brand {
+    opacity: 0;
+    animation: fadeIn 1.2s ease 0.4s forwards;
+  }
+
+  .hero__title-block {
     animation-delay: 0.6s;
+  }
+
+  .carousel {
+    animation-delay: 0.8s;
   }
 
   @keyframes fadeIn {
