@@ -159,4 +159,33 @@
       }
     });
   });
+
+  // === Cards row (가로 grid) — Philosophy·Works ===
+  document.querySelectorAll("[data-cards]").forEach((row) => {
+    const folder = row.getAttribute("data-cards-folder");
+    if (!folder) return;
+
+    detectImages(folder).then((images) => {
+      if (images.length === 0) {
+        // 빈 폴더 — work 자체 숨김
+        const work = row.closest(".work");
+        if (work) {
+          row.style.display = "none";
+        } else {
+          row.style.display = "none";
+        }
+        return;
+      }
+      images.forEach((url) => {
+        const card = document.createElement("div");
+        card.className = "cards-row__card";
+        const img = document.createElement("img");
+        img.src = url;
+        img.alt = "";
+        img.loading = "lazy";
+        card.appendChild(img);
+        row.appendChild(card);
+      });
+    });
+  });
 })();

@@ -67,7 +67,7 @@ img {
 /* === Section base === */
 section,
 footer {
-  padding: clamp(64px, 10vh, 120px) clamp(24px, 5vw, 48px);
+  padding: clamp(40px, 7vh, 80px) clamp(24px, 5vw, 48px);
 }
 
 /* === 1. Hero === */
@@ -78,12 +78,13 @@ footer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: clamp(40px, 6vh, 64px);
+  padding-top: clamp(24px, 4vh, 48px);
+  padding-bottom: clamp(40px, 6vh, 64px);
 }
 
 .hero__brand {
   position: absolute;
-  top: clamp(24px, 4vh, 40px);
+  top: clamp(20px, 3vh, 32px);
   left: clamp(24px, 5vw, 48px);
 }
 
@@ -98,7 +99,7 @@ footer {
 
 .hero__title-block {
   text-align: center;
-  margin-bottom: clamp(48px, 8vh, 80px);
+  margin-bottom: clamp(32px, 5vh, 56px);
 }
 
 .hero__title {
@@ -110,19 +111,10 @@ footer {
   color: var(--ink);
 }
 
-.hero__subtitle {
-  margin-top: 20px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-}
-
 /* === Carousel === */
 .carousel {
   position: relative;
-  width: min(420px, 75vw);
+  width: min(520px, 85vw);
   aspect-ratio: 3 / 4;
   display: flex;
   align-items: center;
@@ -228,9 +220,10 @@ footer {
 .philosophy {
   background-color: var(--paper-alt);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
+  gap: clamp(40px, 6vh, 72px);
 }
 
 .philosophy__inner {
@@ -243,9 +236,9 @@ footer {
   font-size: clamp(15px, 1.6vw, 17px);
   font-weight: 400;
   letter-spacing: -0.005em;
-  line-height: 2;
+  line-height: 1.9;
   color: var(--ink);
-  margin: clamp(32px, 5vh, 48px) 0;
+  margin: clamp(20px, 3vh, 32px) 0;
 }
 
 .philosophy__line:first-child {
@@ -256,14 +249,51 @@ footer {
   margin-bottom: 0;
 }
 
-.philosophy__figure {
-  margin: clamp(40px, 7vh, 64px) auto;
-  max-width: 380px;
+/* === Cards row — Kinfolk Inside Issue 결 (가로 스크롤 grid) === */
+.cards-row {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  width: 100%;
+  padding: 0 clamp(24px, 5vw, 48px) 4px;
+  margin: 0 calc(-1 * clamp(24px, 5vw, 48px));
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-pale) transparent;
 }
 
-.philosophy__figure img {
+.cards-row::-webkit-scrollbar {
+  height: 4px;
+}
+
+.cards-row::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.cards-row::-webkit-scrollbar-thumb {
+  background: var(--ink-pale);
+  border-radius: 2px;
+}
+
+.cards-row__card {
+  flex: 0 0 auto;
+  width: 260px;
+  aspect-ratio: 1 / 1;
+  background-color: var(--paper);
+  scroll-snap-align: start;
+  overflow: hidden;
+}
+
+.cards-row__card img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 누비 등 work__cards 는 세로 비율 (스크린샷 결) */
+.work__cards .cards-row__card {
+  width: 200px;
+  aspect-ratio: 9 / 16;
 }
 
 /* === 3. 작품 목록 === */
@@ -275,7 +305,7 @@ footer {
 
 .works__header {
   text-align: center;
-  margin-bottom: clamp(48px, 8vh, 72px);
+  margin-bottom: clamp(32px, 5vh, 48px);
 }
 
 .works__label {
@@ -301,32 +331,12 @@ footer {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  max-width: 360px;
   width: 100%;
-  margin-bottom: clamp(56px, 9vh, 88px);
+  margin-bottom: clamp(40px, 6vh, 64px);
 }
 
-.work__carousel {
-  width: 100%;
-  aspect-ratio: 3 / 4;
+.work__meta {
   margin-bottom: 24px;
-}
-
-.work__carousel .carousel__arrow {
-  width: 32px;
-  height: 32px;
-}
-
-.work__carousel .carousel__arrow--prev {
-  left: -36px;
-}
-
-.work__carousel .carousel__arrow--next {
-  right: -36px;
-}
-
-.work__carousel .carousel__dots {
-  bottom: -20px;
 }
 
 .work__meta {
@@ -470,7 +480,7 @@ footer {
 /* === fade-in === */
 @media (prefers-reduced-motion: no-preference) {
   .hero__title-block,
-  .carousel,
+  .hero .carousel,
   .philosophy__inner,
   .works__header,
   .work,
@@ -482,15 +492,15 @@ footer {
 
   .hero__brand {
     opacity: 0;
-    animation: fadeIn 1.2s ease 0.4s forwards;
+    animation: fadeIn 1.2s ease 0.3s forwards;
   }
 
   .hero__title-block {
-    animation-delay: 0.6s;
+    animation-delay: 0.5s;
   }
 
-  .carousel {
-    animation-delay: 0.8s;
+  .hero .carousel {
+    animation-delay: 0.7s;
   }
 
   @keyframes fadeIn {
