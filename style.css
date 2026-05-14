@@ -70,67 +70,69 @@ footer {
   padding: clamp(40px, 7vh, 80px) clamp(24px, 5vw, 48px);
 }
 
-/* === Fixed stack + JS transform — 각 페이지가 한 자리에 stays, 위 페이지가 transform translateY로 위로 사라짐 ===
-   사용자 의도: 2페이지가 원래 그 자리에 있음. 1페이지가 그 위에서 자연스럽게 올라가며 사라짐. */
+/* === 1→2 transition만 fixed transform — 나머지는 normal scroll 자연 흐름 === */
 
-.hero,
-.philosophy,
-.works,
-.footer {
+/* 1페이지: Hero만 fixed (스크롤하면 transform으로 위로 사라짐) */
+.hero {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  z-index: 10;
   will-change: transform;
-}
-
-.hero {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding-top: clamp(72px, 10vh, 100px);
   padding-bottom: clamp(40px, 6vh, 64px);
-  z-index: 4;
   background-color: var(--paper);
 }
 
+/* Hero가 fixed라 layout에서 빠짐 → spacer로 그 자리 확보 */
+.hero-spacer {
+  height: 100vh;
+  pointer-events: none;
+}
+
+/* 2~4페이지: normal scroll, 자연 흐름 */
+.philosophy,
+.works,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
 .philosophy {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  z-index: 3;
   background-color: var(--paper-alt);
 }
 
 .works {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  z-index: 2;
   background-color: var(--paper);
-  overflow-y: auto; /* works 내용 길면 안 자르고 스크롤 */
 }
 
 .footer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  z-index: 1;
   background-color: var(--paper-alt);
 }
 
-/* break-image — 별도 page로 안 다룸, 일단 사용 X */
+/* break-image 사용 X */
 .break-image {
   display: none;
 }
 
-/* Scroll spacer — body가 스크롤 가능하게 fake height */
+/* Scroll spacer 제거 (normal scroll로 자연스럽게) */
 .scroll-spacer {
-  height: 400vh;
-  pointer-events: none;
+  display: none;
 }
 
 .hero__brand {

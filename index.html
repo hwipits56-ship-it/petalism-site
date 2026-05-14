@@ -79,8 +79,11 @@
       </div>
     </section>
 
-    <!-- 페이지 2: Philosophy (fixed) -->
-    <section class="philosophy" data-page="1">
+    <!-- Hero가 fixed라 layout에서 빠짐. spacer로 그 자리 확보 -->
+    <div class="hero-spacer" aria-hidden="true"></div>
+
+    <!-- 페이지 2: Philosophy (normal scroll) -->
+    <section class="philosophy">
       <div class="philosophy__inner">
         <p class="philosophy__line">
           페탈리즘은 작은 앱들을 만듭니다.<br />
@@ -91,8 +94,8 @@
       <div class="cards-row" data-cards data-cards-folder="philosophy"></div>
     </section>
 
-    <!-- 페이지 3: Works (fixed) -->
-    <section class="works" data-page="2">
+    <!-- 페이지 3: Works (normal scroll) -->
+    <section class="works">
       <header class="works__header">
         <p class="works__label">Chapter 1 · 자기</p>
         <h2 class="works__title">지금 만들고 있는 것</h2>
@@ -129,8 +132,8 @@
       <p class="works__coming">— 곧 만나요.</p>
     </section>
 
-    <!-- 페이지 4: Footer (fixed, 마지막 — transform 안 됨, 그대로 stays) -->
-    <footer class="footer" data-page="3">
+    <!-- 페이지 4: Footer (normal scroll) -->
+    <footer class="footer">
       <div class="footer__inner">
         <div class="footer__links">
           <a
@@ -156,33 +159,29 @@
       </div>
     </footer>
 
-    <!-- Scroll spacer — body height를 확보해 scroll 가능하게 -->
-    <div class="scroll-spacer" aria-hidden="true"></div>
-
     <script src="/carousel.js"></script>
     <script>
-      // 페이지 transform translateY (1,2,3 페이지가 각 100vh 스크롤마다 위로 사라짐. 4는 그대로)
-      // requestAnimationFrame throttle — 매 scroll event마다 layout 계산 피함
+      // 1→2 transition: Hero가 fixed → scroll 시 transform translateY로 위로 사라짐
+      // 나머지 페이지는 normal scroll로 자연스럽게 이어짐
       (function () {
-        const pages = document.querySelectorAll("[data-page]");
-        if (!pages.length) return;
+        const hero = document.querySelector(".hero");
+        if (!hero) return;
         let ticking = false;
         function update() {
           const y = window.scrollY;
           const vh = window.innerHeight;
-          pages.forEach((page, i) => {
-            if (i === pages.length - 1) return; // 마지막 페이지는 그대로
-            const start = i * vh;
-            const progress = Math.max(0, Math.min(1, (y - start) / vh));
-            page.style.transform = "translate3d(0," + (-progress * 100) + "%,0)";
-          });
-          ticking = false;
+          const progress = Math.max(0, Math.min(1, y / vh));
+          hero.style.transform =
+            "translate3d(0," + (-progress * 100) + "%,0)";
         }
         window.addEventListener(
           "scroll",
           () => {
             if (!ticking) {
-              requestAnimationFrame(update);
+              requestAnimationFrame(() => {
+                update();
+                ticking = false;
+              });
               ticking = true;
             }
           },
