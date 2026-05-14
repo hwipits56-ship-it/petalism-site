@@ -162,20 +162,32 @@
     <script src="/carousel.js"></script>
     <script>
       // 페이지 transform translateY (1,2,3 페이지가 각 100vh 스크롤마다 위로 사라짐. 4는 그대로)
+      // requestAnimationFrame throttle — 매 scroll event마다 layout 계산 피함
       (function () {
         const pages = document.querySelectorAll("[data-page]");
         if (!pages.length) return;
+        let ticking = false;
         function update() {
           const y = window.scrollY;
           const vh = window.innerHeight;
           pages.forEach((page, i) => {
-            if (i === pages.length - 1) return; // 마지막 페이지는 transform 안 함
+            if (i === pages.length - 1) return; // 마지막 페이지는 그대로
             const start = i * vh;
             const progress = Math.max(0, Math.min(1, (y - start) / vh));
-            page.style.transform = "translateY(" + (-progress * 100) + "%)";
+            page.style.transform = "translate3d(0," + (-progress * 100) + "%,0)";
           });
+          ticking = false;
         }
-        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (!ticking) {
+              requestAnimationFrame(update);
+              ticking = true;
+            }
+          },
+          { passive: true },
+        );
         window.addEventListener("resize", update);
         update();
       })();
