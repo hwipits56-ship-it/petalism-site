@@ -7,7 +7,20 @@
   const KB_FOLDER = "weave-cards"; // 키보드 ←→ 활성 carousel 폴더
 
   async function detectImages(folder) {
-    // 01.jpg, 1.jpg, 02.jpg, 2.jpg 등 다 시도. 중간 gap 허용.
+    // 1순위: manifest.json (사용자 파일명 자유)
+    try {
+      const res = await fetch(`/images/${folder}/manifest.json`);
+      if (res.ok) {
+        const list = await res.json();
+        if (Array.isArray(list) && list.length > 0) {
+          return list.map((name) => `/images/${folder}/${name}`);
+        }
+      }
+    } catch (_) {
+      // manifest 없으면 fallback
+    }
+
+    // 2순위: 01.jpg, 1.jpg, 02.jpg 등 숫자 자동 감지. gap 허용.
     const images = [];
     for (let i = 1; i <= MAX_TRIES; i++) {
       const padded = String(i).padStart(2, "0");
@@ -31,7 +44,6 @@
         if (found) break;
       }
       if (found) images.push(found);
-      // gap 허용: 못 찾았어도 break 안 함 (1, 3, 5 같이 띄엄띄엄 OK)
     }
     return images;
   }
