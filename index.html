@@ -176,6 +176,9 @@
         const hero = document.querySelector(".hero");
         if (!hero) return;
         const philosophy = document.querySelector(".philosophy");
+        const philosophyOverlay = philosophy
+          ? philosophy.querySelector(".philosophy__overlay")
+          : null;
         const titleBlock = hero.querySelector(".hero__title-block");
         const brand = hero.querySelector(".hero__brand");
         const carousel = hero.querySelector(".carousel");
@@ -191,8 +194,8 @@
           const y = window.scrollY;
           const vh = window.innerHeight;
 
-          // Hero: 0 ~ 90vh 동안 위로 사라짐
-          const heroRaw = Math.max(0, Math.min(1, y / (vh * 0.9)));
+          // Hero: 0 ~ 95vh 동안 위로 사라짐
+          const heroRaw = Math.max(0, Math.min(1, y / (vh * 0.95)));
           const heroProgress = ease(heroRaw);
 
           hero.style.transform =
@@ -216,9 +219,18 @@
               "translate3d(0," + (heroProgress * 25) + "%,0)";
           }
 
-          // Philosophy: 90vh ~ 190vh 동안 위로 사라짐 (Hero 다 사라진 후 시작)
+          // Philosophy overlay 텍스트: Hero 거의 다 사라진 후 페이드인 (heroRaw 0.85 ~ 1.0)
+          if (philosophyOverlay) {
+            if (heroRaw >= 0.85) {
+              philosophyOverlay.classList.add("is-visible");
+            } else {
+              philosophyOverlay.classList.remove("is-visible");
+            }
+          }
+
+          // Philosophy: 95vh ~ 195vh 동안 위로 사라짐
           if (philosophy) {
-            const philStart = vh * 0.9;
+            const philStart = vh * 0.95;
             const philRaw = Math.max(
               0,
               Math.min(1, (y - philStart) / vh),

@@ -73,13 +73,13 @@ footer {
 /* === 1→2 transition만 fixed transform — 나머지는 normal scroll 자연 흐름 === */
 
 /* 1페이지: Hero만 fixed (스크롤하면 transform으로 위로 사라짐) */
-/* 하단 10vh 여백 — 다음 페이지 미리보기 (Kinfolk 결) */
+/* 하단 5vh 여백 — 다음 페이지 미리보기 살짝만 (사용자 줄여달라 요청) */
 .hero {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 90vh;
+  height: 95vh;
   overflow: hidden;
   z-index: 10;
   will-change: transform;
@@ -88,13 +88,13 @@ footer {
   align-items: center;
   justify-content: center;
   padding-top: clamp(56px, 8vh, 80px);
-  padding-bottom: clamp(24px, 4vh, 40px);
+  padding-bottom: clamp(12px, 2.5vh, 24px);
   background-color: var(--paper);
 }
 
-/* Hero가 fixed라 layout에서 빠짐 → spacer로 그 자리 확보 (90vh) */
+/* Hero가 fixed라 layout에서 빠짐 → spacer로 그 자리 확보 (95vh) */
 .hero-spacer {
-  height: 90vh;
+  height: 95vh;
   pointer-events: none;
 }
 
@@ -162,6 +162,12 @@ footer {
   max-width: 440px;
   color: #ffffff;
   text-align: right;
+  opacity: 0; /* Hero 다 사라진 후 JS가 .is-visible 추가 → 페이드인 */
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.philosophy__overlay.is-visible {
+  opacity: 1;
 }
 
 .philosophy__label {
