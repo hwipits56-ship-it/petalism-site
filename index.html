@@ -29,7 +29,10 @@
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <!-- 1. Hero — Kinfolk K59 결: 워드마크 상단 작게 + 큰 카피 + carousel -->
+    <!-- 페이지 1: Hero — page-wrap이 sticky context (200vh)
+         1페이지가 100vh stays 후 100vh transition으로 위로 사라짐.
+         그 뒤에 자리잡힌 2페이지(z-index 더 낮음)가 드러남. -->
+    <div class="page-wrap">
     <section class="hero">
       <header class="hero__brand">
         <p class="wordmark">Petalism</p>
@@ -78,13 +81,15 @@
         <div class="carousel__dots" data-dots></div>
       </div>
     </section>
+    </div>
 
-    <!-- 가로 break 이미지 (Kinfolk 결 — 풀 너비 사진으로 화면 전환) -->
-    <section class="break-image" data-break-image>
-      <!-- /images/breaks/01.jpg ~ 자동 감지. 없으면 자동 숨김. -->
-    </section>
+    <!-- 가로 break 이미지 (이미지 있으면 별도 page-wrap) -->
+    <div class="page-wrap" data-break-wrap>
+    <section class="break-image" data-break-image></section>
+    </div>
 
-    <!-- 2. 페탈리즘 — 시적 단락 + 카드뉴스 grid -->
+    <!-- 페이지 2: Philosophy — 시적 단락 + 카드뉴스 grid -->
+    <div class="page-wrap">
     <section class="philosophy">
       <div class="philosophy__inner">
         <p class="philosophy__line">
@@ -95,8 +100,10 @@
 
       <div class="cards-row" data-cards data-cards-folder="philosophy"></div>
     </section>
+    </div>
 
-    <!-- 3. 작품 목록 -->
+    <!-- 페이지 3: Works -->
+    <div class="page-wrap">
     <section class="works">
       <header class="works__header">
         <p class="works__label">Chapter 1 · 자기</p>
@@ -133,8 +140,10 @@
 
       <p class="works__coming">— 곧 만나요.</p>
     </section>
+    </div>
 
-    <!-- 4. 정보 -->
+    <!-- 페이지 4: Footer (마지막 — 일반 layout) -->
+    <div class="page-wrap">
     <footer class="footer">
       <div class="footer__inner">
         <div class="footer__links">
@@ -160,6 +169,7 @@
         <p class="footer__legal">서울특별시 중랑구 망우로 313, 1302호</p>
       </div>
     </footer>
+    </div>
 
     <script src="/carousel.js"></script>
   </body>

@@ -165,6 +165,9 @@
     detectImages("breaks").then((images) => {
       if (images.length === 0) {
         el.classList.add("break-image--empty");
+        // page-wrap도 같이 숨김 (sticky context 제거)
+        const wrap = el.closest("[data-break-wrap]");
+        if (wrap) wrap.style.display = "none";
         return;
       }
       el.style.backgroundImage = "url(" + images[0] + ")";

@@ -70,24 +70,33 @@ footer {
   padding: clamp(40px, 7vh, 80px) clamp(24px, 5vw, 48px);
 }
 
-/* === Sticky stack — 모든 페이지가 viewport에 stays, 다음 페이지가 위로 미끄러져 올라옴 ===
-   1페이지 (Hero) → stays
-   2페이지 (Philosophy) → 1 위로 올라와 stays
-   3페이지 (Works) → 2 위로 올라와 stays
-   4페이지 (Footer) → 3 위로 올라옴 */
+/* === Reverse sticky stack — 이전 페이지가 위로 사라지면서 다음 페이지가 드러남 ===
+   z-index 반전: 1페이지(앞) > 2 > 3 > 4 (뒤)
+   2,3,4 페이지는 처음부터 뒤에 자리잡혀 있음 (sticky top:0).
+   1페이지의 sticky context (page-1-wrap)가 끝나면 위로 사라짐 → 2페이지가 드러남.
+   같은 패턴으로 2 → 3 → 4. */
+
+.page-wrap {
+  position: relative;
+  height: 200vh; /* sticky context 2 viewport — 첫 100vh stays + 100vh transition */
+}
+
+.page-wrap:last-of-type {
+  height: 100vh; /* 마지막은 그대로 (sticky 풀리면 페이지 끝) */
+}
 
 /* === 1페이지: Hero === */
 .hero {
   position: sticky;
   top: 0;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding-top: clamp(72px, 10vh, 100px);
   padding-bottom: clamp(40px, 6vh, 64px);
-  z-index: 1;
+  z-index: 4;
   background-color: var(--paper);
 }
 
@@ -95,15 +104,15 @@ footer {
 .break-image {
   position: sticky;
   top: 0;
-  min-height: 100vh;
-  z-index: 2;
+  height: 100vh;
+  z-index: 3;
 }
 
 /* === 2페이지: Philosophy === */
 .philosophy {
   position: sticky;
   top: 0;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -115,11 +124,11 @@ footer {
 .works {
   position: sticky;
   top: 0;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  z-index: 4;
+  z-index: 2;
   background-color: var(--paper);
 }
 
@@ -127,11 +136,11 @@ footer {
 .footer {
   position: sticky;
   top: 0;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  z-index: 5;
+  z-index: 1;
   background-color: var(--paper-alt);
 }
 
