@@ -82,7 +82,8 @@ footer {
   top: 0;
   left: 0;
   width: 100%;
-  height: 95vh;
+  height: 95vh; /* fallback */
+  height: 95dvh; /* 모바일 브라우저 UI 차감 자동 */
   overflow: hidden;
   z-index: 10;
   will-change: transform;
@@ -98,6 +99,7 @@ footer {
 /* Hero가 fixed라 layout에서 빠짐 → spacer로 그 자리 확보 (95vh) */
 .hero-spacer {
   height: 95vh;
+  height: 95dvh;
   pointer-events: none;
 }
 
@@ -113,7 +115,8 @@ footer {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100vh; /* fallback */
+  height: 100dvh;
   overflow: hidden;
   padding: 0;
   background-color: var(--navy); /* 이미지 없을 때 fallback */
@@ -124,13 +127,15 @@ footer {
 /* Philosophy가 fixed라 layout에서 빠짐 → spacer로 그 자리 확보 (100vh) */
 .philosophy-spacer {
   height: 100vh;
+  height: 100dvh;
   pointer-events: none;
 }
 
 /* === 3페이지 Works 좌하단 헤딩 영역 === */
 .works__intro {
   width: 100%;
-  min-height: 60vh;
+  min-height: 60vh; /* fallback */
+  min-height: 60dvh;
   padding: clamp(40px, 6vh, 64px) clamp(24px, 5vw, 48px);
   display: flex;
   align-items: flex-end;
@@ -710,7 +715,16 @@ footer {
   }
 
   .hero {
-    min-height: 100vh;
+    /* 95vh + 95dvh fallback 활성화 (위에서 정의됨) — min-height 제거 */
+    min-height: 0;
+    /* 모바일은 컨텐츠 위쪽 정렬 — 로고와 제목 사이 간격 적정화 */
+    justify-content: flex-start;
+    padding-top: 80px; /* brand 20px + 텍스트 위 여유 */
+    padding-bottom: 16px;
+  }
+
+  .hero__title-block {
+    margin-bottom: clamp(20px, 3dvh, 32px);
   }
 
   .hero__brand,
