@@ -26,8 +26,8 @@ html {
 /* === Tokens — Kinfolk 그대로 (neutral cool gray + 5월 남색) === */
 :root {
   /* 5월 팔레트 — Kinfolk 사이트 hex 그대로 */
-  --paper: #f4f4f4; /* Kinfolk 메인 base (neutral cool gray, warm tint X) */
-  --paper-alt: #ebebe6; /* 보조 섹션 (살짝 진한 neutral) */
+  --paper: #f4f4f4; /* Kinfolk 메인 base (neutral cool gray) */
+  --paper-alt: #dcdbd4; /* 보조 섹션 — 명확한 구분 (cool olive 결) */
   --paper-accent: #dbded5; /* Kinfolk 패널 강조 (cool olive) */
   --ink: #1f1f1f;
   --ink-soft: #555555;
@@ -239,12 +239,12 @@ footer {
 
 .philosophy__line {
   font-family: var(--font-display);
-  font-size: clamp(12px, 1.2vw, 14px);
+  font-size: clamp(14px, 1.5vw, 17px);
   font-weight: 400;
   letter-spacing: -0.005em;
-  line-height: 1.85;
-  color: var(--ink-soft);
-  margin: clamp(16px, 2.5vh, 24px) 0;
+  line-height: 1.9;
+  color: var(--ink);
+  margin: clamp(20px, 3vh, 28px) 0;
 }
 
 .philosophy__line:first-child {
@@ -284,7 +284,7 @@ footer {
 
 .cards-row__card {
   flex: 0 0 auto;
-  width: 380px;
+  width: 520px;
   background-color: transparent;
   scroll-snap-align: center;
   overflow: hidden;
