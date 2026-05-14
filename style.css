@@ -143,27 +143,41 @@ footer {
   left: clamp(24px, 5vw, 56px);
   bottom: clamp(32px, 6vh, 72px);
   z-index: 3;
-  max-width: 640px;
+  max-width: 520px;
   color: #ffffff;
+}
+
+.philosophy__label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 14px;
 }
 
 .philosophy__heading {
   font-family: var(--font-display);
-  font-size: clamp(28px, 4.5vw, 48px);
+  font-size: clamp(20px, 2.8vw, 30px);
   font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
+  letter-spacing: -0.005em;
+  line-height: 1.35;
   color: #ffffff;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .philosophy__caption {
   font-family: var(--font-display);
-  font-size: clamp(15px, 1.8vw, 19px);
+  font-size: clamp(13px, 1.4vw, 15px);
   font-weight: 400;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.88);
   letter-spacing: -0.005em;
+}
+
+.philosophy__caption + .philosophy__caption {
+  margin-top: 10px;
 }
 
 .works {
