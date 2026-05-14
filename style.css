@@ -23,17 +23,18 @@ html {
   font-feature-settings: "ss03", "tnum";
 }
 
-/* === Tokens — Kinfolk 결 (더 밝은 톤 + 5월 남색) === */
+/* === Tokens — Kinfolk 그대로 (neutral cool gray + 5월 남색) === */
 :root {
-  /* 5월 팔레트 */
-  --paper: #f7f5f1; /* 거의 흰색에 가까운 톤 */
-  --paper-warm: #efede7; /* 보조 (대조 섹션) */
+  /* 5월 팔레트 — Kinfolk 사이트 hex 그대로 */
+  --paper: #f4f4f4; /* Kinfolk 메인 base (neutral cool gray, warm tint X) */
+  --paper-alt: #ebebe6; /* 보조 섹션 (살짝 진한 neutral) */
+  --paper-accent: #dbded5; /* Kinfolk 패널 강조 (cool olive) */
   --ink: #1f1f1f;
   --ink-soft: #555555;
   --ink-faint: #8a8a8a;
   --ink-pale: #c8c6c0;
   --navy: #1b2a4e; /* 5월 accent — 깊은 남색 (로고 결) */
-  --line: #dad7d0;
+  --line: #d8d8d2;
 
   /* Typography — 로고만 가비아 마음결, 나머지 Pretendard */
   --font-display: "GabiaMaeumgyeol", "Nanum Myeongjo", serif;
@@ -155,7 +156,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--paper-warm);
+  background-color: var(--paper-alt);
   border: 1px solid var(--line);
   color: var(--ink-faint);
   font-family: var(--font-sans);
@@ -225,7 +226,7 @@ footer {
 
 /* === 2. 페탈리즘 설명 === */
 .philosophy {
-  background-color: var(--paper-warm);
+  background-color: var(--paper-alt);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -310,7 +311,7 @@ footer {
   aspect-ratio: 3 / 4;
   margin-bottom: 24px;
   overflow: hidden;
-  background-color: var(--paper-warm);
+  background-color: var(--paper-alt);
 }
 
 .work__figure img {
@@ -370,7 +371,7 @@ footer {
 
 /* === 4. Footer === */
 .footer {
-  background-color: var(--paper-warm);
+  background-color: var(--paper-alt);
   text-align: center;
   padding-top: clamp(72px, 11vh, 112px);
   padding-bottom: clamp(48px, 8vh, 80px);
