@@ -255,61 +255,59 @@ footer {
   margin-bottom: 0;
 }
 
-/* === Cards row — Kinfolk Inside Issue 결 (가로 스크롤 grid) === */
+/* === Cards row — Coverflow 결 (가운데 강조, 좌우 흐림) === */
 .cards-row {
   display: flex;
-  gap: 20px;
-  justify-content: center; /* 한 화면 안에 다 들어가면 중앙. 넘치면 자동 left */
+  gap: 24px;
+  align-items: center;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  width: 100%;
-  padding: 0 clamp(24px, 5vw, 48px) 4px;
-  margin: 0 calc(-1 * clamp(24px, 5vw, 48px));
-  scrollbar-width: thin;
-  scrollbar-color: var(--ink-pale) transparent;
+  scroll-behavior: smooth;
+  width: 100vw;
+  padding: 24px calc(50vw - 170px) 24px; /* 첫·마지막 카드도 가운데 정렬 */
+  margin: 0 calc(50% - 50vw);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .cards-row::-webkit-scrollbar {
-  height: 4px;
-}
-
-.cards-row::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.cards-row::-webkit-scrollbar-thumb {
-  background: var(--ink-pale);
-  border-radius: 2px;
+  display: none;
 }
 
 .cards-row__card {
-  flex: 0 0 auto;
-  width: 520px;
+  flex: 0 0 340px;
   background-color: transparent;
   scroll-snap-align: center;
   overflow: hidden;
+  opacity: 0.32;
+  transform: scale(0.88);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.cards-row__card.is-active {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .cards-row__card img {
   width: 100%;
-  height: auto; /* 원본 비율 유지 — 카드뉴스 안 잘림 */
+  height: auto;
   display: block;
 }
 
 /* 누비 등 work__cards 는 세로 비율 (스크린샷 결, 9:16 고정) */
+.work__cards {
+  padding: 12px calc(50vw - 100px) 12px;
+}
+
 .work__cards .cards-row__card {
-  width: 220px;
+  flex: 0 0 200px;
   aspect-ratio: 9 / 16;
 }
 
 .work__cards .cards-row__card img {
   height: 100%;
   object-fit: cover;
-}
-
-/* 카드 사이즈가 다 다르면 align top */
-.cards-row {
-  align-items: flex-start;
 }
 
 /* === 3. 작품 목록 === */

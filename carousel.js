@@ -160,20 +160,14 @@
     });
   });
 
-  // === Cards row (가로 grid) — Philosophy·Works ===
+  // === Cards row (Coverflow — 가운데 카드 강조) — Philosophy·Works ===
   document.querySelectorAll("[data-cards]").forEach((row) => {
     const folder = row.getAttribute("data-cards-folder");
     if (!folder) return;
 
     detectImages(folder).then((images) => {
       if (images.length === 0) {
-        // 빈 폴더 — work 자체 숨김
-        const work = row.closest(".work");
-        if (work) {
-          row.style.display = "none";
-        } else {
-          row.style.display = "none";
-        }
+        row.style.display = "none";
         return;
       }
       images.forEach((url) => {
@@ -185,6 +179,41 @@
         img.loading = "lazy";
         card.appendChild(img);
         row.appendChild(card);
+      });
+      // 첫 카드 active (가운데에 위치)
+      const cards = row.querySelectorAll(".cards-row__card");
+      if (cards[0]) cards[0].classList.add("is-active");
+
+      // 스크롤 시 가운데 카드 detect → is-active toggle
+      function updateActive() {
+        const rowRect = row.getBoundingClientRect();
+        const centerX = rowRect.left + rowRect.width / 2;
+        let closest = null;
+        let minDist = Infinity;
+        cards.forEach((c) => {
+          const r = c.getBoundingClientRect();
+          const cx = r.left + r.width / 2;
+          const dist = Math.abs(cx - centerX);
+          if (dist < minDist) {
+            minDist = dist;
+            closest = c;
+          }
+        });
+        cards.forEach((c) =>
+          c.classList.toggle("is-active", c === closest),
+        );
+      }
+      row.addEventListener("scroll", updateActive, { passive: true });
+      // 카드 클릭 시 가운데로 스크롤
+      cards.forEach((c) => {
+        c.addEventListener("click", () => {
+          c.scrollIntoView({
+            behavior: "smooth",
+            inline: "center",
+            block: "nearest",
+          });
+        });
+        c.style.cursor = "pointer";
       });
     });
   });
