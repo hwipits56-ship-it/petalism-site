@@ -648,36 +648,51 @@ footer {
   }
 }
 
-/* === fade-in === */
+/* === Hero 초기 fade-in (페이지 로드 시) === */
 @media (prefers-reduced-motion: no-preference) {
+  .hero__brand,
   .hero__title-block,
-  .hero .carousel,
-  .philosophy__inner,
-  .works__header,
-  .work,
-  .footer__inner {
+  .hero .carousel {
     opacity: 0;
     transform: translateY(8px);
-    animation: fadeIn 1.2s ease forwards;
+    animation: heroFadeIn 1.2s ease forwards;
   }
 
   .hero__brand {
-    opacity: 0;
-    animation: fadeIn 1.2s ease 0.3s forwards;
+    animation-delay: 0.3s;
   }
-
   .hero__title-block {
     animation-delay: 0.5s;
   }
-
   .hero .carousel {
     animation-delay: 0.7s;
   }
 
-  @keyframes fadeIn {
+  @keyframes heroFadeIn {
     to {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+}
+
+/* === Fade-in on scroll — Philosophy, Works, Footer 콘텐츠 등장 시 === */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

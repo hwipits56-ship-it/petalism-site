@@ -84,24 +84,24 @@
 
     <!-- 페이지 2: Philosophy (normal scroll) -->
     <section class="philosophy">
-      <div class="philosophy__inner">
+      <div class="philosophy__inner fade-in">
         <p class="philosophy__line">
           페탈리즘은 작은 앱들을 만듭니다.<br />
           이미 있던 아름다움을 발견하고 기록하는 도구들.
         </p>
       </div>
 
-      <div class="cards-row" data-cards data-cards-folder="philosophy"></div>
+      <div class="cards-row fade-in" data-cards data-cards-folder="philosophy"></div>
     </section>
 
     <!-- 페이지 3: Works (normal scroll) -->
     <section class="works">
-      <header class="works__header">
+      <header class="works__header fade-in">
         <p class="works__label">Chapter 1 · 자기</p>
         <h2 class="works__title">지금 만들고 있는 것</h2>
       </header>
 
-      <article class="work work--featured" data-work-folder="works/nubi">
+      <article class="work work--featured fade-in" data-work-folder="works/nubi">
         <div class="work__feature" data-work-feature>
           <!-- 첫 이미지가 풀 너비 hero로 들어감 (JS) -->
         </div>
@@ -113,9 +113,9 @@
         </div>
       </article>
 
-      <div class="cards-row work__cards" data-cards data-cards-folder="works/nubi" data-skip-first="true"></div>
+      <div class="cards-row work__cards fade-in" data-cards data-cards-folder="works/nubi" data-skip-first="true"></div>
 
-      <article class="work work--featured" data-work-folder="works/time">
+      <article class="work work--featured fade-in" data-work-folder="works/time">
         <div class="work__feature" data-work-feature>
           <!-- 첫 이미지 hero -->
         </div>
@@ -127,14 +127,14 @@
         </div>
       </article>
 
-      <div class="cards-row work__cards" data-cards data-cards-folder="works/time" data-skip-first="true"></div>
+      <div class="cards-row work__cards fade-in" data-cards data-cards-folder="works/time" data-skip-first="true"></div>
 
       <p class="works__coming">— 곧 만나요.</p>
     </section>
 
     <!-- 페이지 4: Footer (normal scroll) -->
     <footer class="footer">
-      <div class="footer__inner">
+      <div class="footer__inner fade-in">
         <div class="footer__links">
           <a
             class="footer__link"
@@ -161,18 +161,41 @@
 
     <script src="/carousel.js"></script>
     <script>
-      // 1→2 transition: Hero가 fixed → scroll 시 transform translateY로 위로 사라짐
-      // 나머지 페이지는 normal scroll로 자연스럽게 이어짐
+      // === 1→2 transition: Hero fixed + transform + typography fade + carousel parallax ===
       (function () {
         const hero = document.querySelector(".hero");
         if (!hero) return;
+        const titleBlock = hero.querySelector(".hero__title-block");
+        const brand = hero.querySelector(".hero__brand");
+        const carousel = hero.querySelector(".carousel");
+
         let ticking = false;
         function update() {
           const y = window.scrollY;
           const vh = window.innerHeight;
           const progress = Math.max(0, Math.min(1, y / vh));
+
+          // Hero 자체 위로 사라짐
           hero.style.transform =
             "translate3d(0," + (-progress * 100) + "%,0)";
+
+          // Typography fade — 라벨·메인 카피가 더 빨리 fade out + scale down (매거진 표지 결)
+          if (titleBlock) {
+            titleBlock.style.opacity = String(
+              Math.max(0, 1 - progress * 1.5),
+            );
+            titleBlock.style.transform =
+              "scale(" + (1 - progress * 0.08) + ")";
+          }
+          if (brand) {
+            brand.style.opacity = String(Math.max(0, 1 - progress * 1.2));
+          }
+
+          // Carousel parallax — Hero보다 느리게 사라짐 (깊이감)
+          if (carousel) {
+            carousel.style.transform =
+              "translate3d(0," + (progress * 25) + "%,0)";
+          }
         }
         window.addEventListener(
           "scroll",
@@ -189,6 +212,28 @@
         );
         window.addEventListener("resize", update);
         update();
+      })();
+
+      // === Fade-in on scroll — Philosophy, Works, Footer 콘텐츠 등장 시 ===
+      (function () {
+        const els = document.querySelectorAll(".fade-in");
+        if (!els.length) return;
+        if (!("IntersectionObserver" in window)) {
+          els.forEach((el) => el.classList.add("is-visible"));
+          return;
+        }
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+        );
+        els.forEach((el) => observer.observe(el));
       })();
     </script>
   </body>
