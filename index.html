@@ -168,6 +168,7 @@
     <script src="/carousel.js"></script>
     <script>
       // === 1→2 transition: Hero fixed + transform + typography fade + carousel parallax ===
+      // 위로 스크롤 돌아갈 때 자연스럽게 fade-in (transform + opacity 부드럽게)
       (function () {
         const hero = document.querySelector(".hero");
         if (!hero) return;
@@ -180,13 +181,19 @@
           const y = window.scrollY;
           const vh = window.innerHeight;
           // Hero 90vh 기준 (마지막 10vh는 다음 페이지 미리보기 영역)
-          const progress = Math.max(0, Math.min(1, y / (vh * 0.9)));
+          const progressRaw = Math.max(0, Math.min(1, y / (vh * 0.9)));
+          // ease-in-out 곡선 — 사라질 때·돌아올 때 양쪽 다 부드러움
+          const progress =
+            progressRaw < 0.5
+              ? 2 * progressRaw * progressRaw
+              : 1 - Math.pow(-2 * progressRaw + 2, 2) / 2;
 
-          // Hero 자체 위로 사라짐
+          // Hero 자체 위로 사라짐 + opacity (위로 돌아갈 때 자연스럽게 fade-in)
           hero.style.transform =
             "translate3d(0," + (-progress * 100) + "%,0)";
+          hero.style.opacity = String(Math.max(0, 1 - progress * 0.9));
 
-          // Typography fade — 라벨·메인 카피가 더 빨리 fade out + scale down (매거진 표지 결)
+          // Typography fade — 라벨·메인 카피가 더 빨리 fade out + scale down
           if (titleBlock) {
             titleBlock.style.opacity = String(
               Math.max(0, 1 - progress * 1.5),

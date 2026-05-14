@@ -140,44 +140,55 @@ footer {
 
 .philosophy__overlay {
   position: absolute;
-  left: clamp(24px, 5vw, 56px);
+  right: clamp(24px, 5vw, 56px);
   bottom: clamp(32px, 6vh, 72px);
   z-index: 3;
-  max-width: 520px;
+  max-width: 440px;
   color: #ffffff;
+  text-align: right;
 }
 
 .philosophy__label {
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 14px;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 12px;
 }
 
 .philosophy__heading {
   font-family: var(--font-display);
-  font-size: clamp(20px, 2.8vw, 30px);
+  font-size: clamp(16px, 2vw, 22px);
   font-weight: 400;
   letter-spacing: -0.005em;
-  line-height: 1.35;
+  line-height: 1.4;
   color: #ffffff;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .philosophy__caption {
   font-family: var(--font-display);
-  font-size: clamp(13px, 1.4vw, 15px);
+  font-size: clamp(11px, 1.15vw, 13px);
   font-weight: 400;
   line-height: 1.75;
-  color: rgba(255, 255, 255, 0.88);
+  color: rgba(255, 255, 255, 0.85);
   letter-spacing: -0.005em;
 }
 
 .philosophy__caption + .philosophy__caption {
-  margin-top: 10px;
+  margin-top: 8px;
+}
+
+/* gradient 좌하단 → 우하단으로 변경 (텍스트 위치 매칭) */
+.philosophy::before {
+  background: linear-gradient(
+    to top left,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.2) 40%,
+    rgba(0, 0, 0, 0) 70%
+  );
 }
 
 .works {
@@ -207,7 +218,7 @@ footer {
 
 .wordmark {
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 400;
   letter-spacing: 0.01em;
   line-height: 1;
