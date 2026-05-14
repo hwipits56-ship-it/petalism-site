@@ -108,19 +108,26 @@
     <!-- Philosophy가 fixed라 layout에서 빠짐 → spacer로 그 자리 확보 -->
     <div class="philosophy-spacer" aria-hidden="true"></div>
 
-    <!-- 페이지 3: Works (normal scroll) — 좌하단 헤딩 + 작품 카드들 한 페이지 -->
-    <section class="works">
-      <div class="works__intro">
-        <header class="works__title-block fade-in">
-          <p class="works__label">2026</p>
-          <h2 class="works__heading">지금 만들고 있는 것</h2>
-          <p class="works__caption">
-            페탈리즘이 지금 만들고 있는 두 작은 도구.
-            누비, 그리고 시간.
-          </p>
-        </header>
+    <!-- 페이지 3 intro: 좌상단 로고 + 좌하단 헤딩 (fixed, z-index 3) — Philosophy 뒤에서 드러남 -->
+    <section class="works-intro">
+      <header class="works-intro__brand">
+        <p class="wordmark">Petalism</p>
+      </header>
+      <div class="works-intro__overlay">
+        <p class="works-intro__label">2026</p>
+        <h2 class="works-intro__heading">지금 만들고 있는 것</h2>
+        <p class="works-intro__caption">
+          페탈리즘이 지금 만들고 있는 두 작은 도구.<br />
+          누비, 그리고 시간.
+        </p>
       </div>
+    </section>
 
+    <!-- Works intro spacer (70dvh) — fixed라 자리 확보 -->
+    <div class="works-intro-spacer" aria-hidden="true"></div>
+
+    <!-- 페이지 3 content: 작품 카드 (normal scroll) -->
+    <section class="works">
       <article class="work fade-in">
         <div class="cards-row work__cards" data-cards data-cards-folder="works/nubi"></div>
         <header class="work__header">
@@ -183,6 +190,13 @@
         const philosophyBrand = philosophy
           ? philosophy.querySelector(".philosophy__brand")
           : null;
+        const worksIntro = document.querySelector(".works-intro");
+        const worksIntroBrand = worksIntro
+          ? worksIntro.querySelector(".works-intro__brand")
+          : null;
+        const worksIntroOverlay = worksIntro
+          ? worksIntro.querySelector(".works-intro__overlay")
+          : null;
 
         function ease(t) {
           return t < 0.5
@@ -212,15 +226,37 @@
           }
 
           // Philosophy: 95vh ~ 195vh 동안 위로 슬라이드 (페이드 X, translateY만)
+          let philRaw = 0;
           if (philosophy) {
             const philStart = vh * 0.95;
-            const philRaw = Math.max(
+            philRaw = Math.max(
               0,
               Math.min(1, (y - philStart) / vh),
             );
             const philProgress = ease(philRaw);
             philosophy.style.transform =
               "translate3d(0," + (-philProgress * 100) + "%,0)";
+          }
+
+          // Works intro brand·overlay: Philosophy 거의 다 사라진 후 페이드인 (philRaw 0.85 ~ 1.0)
+          const worksIntroVisible = philRaw >= 0.85;
+          if (worksIntroBrand) {
+            worksIntroBrand.classList.toggle("is-visible", worksIntroVisible);
+          }
+          if (worksIntroOverlay) {
+            worksIntroOverlay.classList.toggle("is-visible", worksIntroVisible);
+          }
+
+          // Works intro: 195vh ~ 265vh 동안 위로 슬라이드 (거리 70vh — 빠른 transition)
+          if (worksIntro) {
+            const worksStart = vh * 1.95;
+            const worksRaw = Math.max(
+              0,
+              Math.min(1, (y - worksStart) / (vh * 0.7)),
+            );
+            const worksProgress = ease(worksRaw);
+            worksIntro.style.transform =
+              "translate3d(0," + (-worksProgress * 100) + "%,0)";
           }
         }
         window.addEventListener(

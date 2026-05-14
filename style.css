@@ -131,34 +131,76 @@ footer {
   pointer-events: none;
 }
 
-/* === 3페이지 Works 좌하단 헤딩 영역 === */
-.works__intro {
+/* === 3페이지 intro (fixed, z-index 3 — Philosophy 뒤에서 드러남) === */
+/* 영역 70dvh — viewport 안에 작품 카드 첫 부분도 같이 보이도록 한 흐름 */
+.works-intro {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  min-height: 60vh; /* fallback */
-  min-height: 60dvh;
-  padding: clamp(40px, 6vh, 64px) clamp(24px, 5vw, 48px);
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  box-sizing: border-box;
+  height: 70vh; /* fallback */
+  height: 70dvh;
+  overflow: hidden;
+  background-color: var(--paper);
+  z-index: 3;
+  will-change: transform;
 }
 
-.works__title-block {
+.works-intro-spacer {
+  height: 70vh;
+  height: 70dvh;
+  pointer-events: none;
+}
+
+.works-intro__brand {
+  position: absolute;
+  top: clamp(20px, 3vh, 32px);
+  left: clamp(24px, 5vw, 48px);
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.works-intro__brand.is-visible {
+  opacity: 1;
+}
+
+.works-intro__overlay {
+  position: absolute;
+  left: clamp(24px, 5vw, 48px);
+  bottom: clamp(32px, 6vh, 56px);
   max-width: 440px;
   text-align: left;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.works__heading {
+.works-intro__overlay.is-visible {
+  opacity: 1;
+}
+
+.works-intro__label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+
+.works-intro__heading {
   font-family: var(--font-display);
   font-size: clamp(20px, 2.6vw, 28px);
   font-weight: 400;
   letter-spacing: -0.01em;
   color: var(--navy);
   line-height: 1.4;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
-.works__caption {
+.works-intro__caption {
   font-family: var(--font-display);
   font-size: clamp(12px, 1.2vw, 14px);
   font-weight: 400;
@@ -728,7 +770,8 @@ footer {
   }
 
   .hero__brand,
-  .philosophy__brand {
+  .philosophy__brand,
+  .works-intro__brand {
     top: 20px;
     left: 20px;
   }
