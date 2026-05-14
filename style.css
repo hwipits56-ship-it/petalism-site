@@ -70,10 +70,9 @@ footer {
   padding: clamp(40px, 7vh, 80px) clamp(24px, 5vw, 48px);
 }
 
-/* === 1. Hero — sticky (Kinfolk 스크롤 결: 다음 섹션이 그 위로 올라옴) === */
+/* === 1. Hero — normal scroll (위로 사라짐) === */
 .hero {
-  position: sticky;
-  top: 0;
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -84,17 +83,37 @@ footer {
   z-index: 0;
 }
 
-/* Hero 위로 미끄러져 오는 섹션들 */
+/* Sticky stack — 다음 페이지가 viewport에 fix, 이전이 위로 사라짐 (Kinfolk 결) */
+.break-image,
 .philosophy,
-.works,
-.footer {
-  position: relative;
+.works {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.break-image {
   z-index: 1;
+}
+
+.philosophy {
+  z-index: 2;
   background-color: var(--paper-alt);
 }
 
 .works {
+  z-index: 3;
   background-color: var(--paper);
+}
+
+/* Footer는 마지막이라 normal */
+.footer {
+  position: relative;
+  z-index: 4;
+  background-color: var(--paper-alt);
 }
 
 .hero__brand {
