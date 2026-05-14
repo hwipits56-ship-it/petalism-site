@@ -108,7 +108,7 @@
     <!-- Philosophy가 fixed라 layout에서 빠짐 → spacer로 그 자리 확보 -->
     <div class="philosophy-spacer" aria-hidden="true"></div>
 
-    <!-- 페이지 3 intro: 좌상단 로고 + 좌하단 헤딩 (fixed, z-index 3) — Philosophy 뒤에서 드러남 -->
+    <!-- 페이지 3: Works (fixed 100dvh, z-index 3) — 헤딩 + 작품 카드 한 viewport 통합 -->
     <section class="works-intro">
       <header class="works-intro__brand">
         <p class="wordmark">Petalism</p>
@@ -116,38 +116,28 @@
       <div class="works-intro__overlay">
         <p class="works-intro__label">2026</p>
         <h2 class="works-intro__heading">지금 만들고 있는 것</h2>
-        <p class="works-intro__caption">
-          페탈리즘이 지금 만들고 있는 두 작은 도구.<br />
-          누비, 그리고 시간.
-        </p>
+      </div>
+      <div class="works-intro__previews">
+        <article class="work-preview">
+          <div class="cards-row work-preview__cards" data-cards data-cards-folder="works/nubi"></div>
+          <div class="work-preview__meta">
+            <h3 class="work-preview__name">누비 <span class="work-preview__name-en">NUBI</span></h3>
+            <p class="work-preview__desc">하루를 한 장의 엽서로 — 2026 봄</p>
+          </div>
+        </article>
+
+        <article class="work-preview">
+          <div class="cards-row work-preview__cards" data-cards data-cards-folder="works/time"></div>
+          <div class="work-preview__meta">
+            <h3 class="work-preview__name">시간 <span class="work-preview__name-note">(가칭)</span></h3>
+            <p class="work-preview__desc">시간을 아름답게 기억하는 일 — 2026 곧</p>
+          </div>
+        </article>
       </div>
     </section>
 
-    <!-- Works intro spacer (70dvh) — fixed라 자리 확보 -->
+    <!-- Works intro spacer (100dvh) — fixed라 자리 확보 -->
     <div class="works-intro-spacer" aria-hidden="true"></div>
-
-    <!-- 페이지 3 content: 작품 카드 (normal scroll) -->
-    <section class="works">
-      <article class="work fade-in">
-        <div class="cards-row work__cards" data-cards data-cards-folder="works/nubi"></div>
-        <header class="work__header">
-          <p class="work__label">2026 · 봄</p>
-          <h3 class="work__name">누비 <span class="work__name-en">NUBI</span></h3>
-          <p class="work__desc">하루를 한 장의 엽서로 남기는 일</p>
-          <p class="work__cta">— 곧 만나요.</p>
-        </header>
-      </article>
-
-      <article class="work fade-in">
-        <div class="cards-row work__cards" data-cards data-cards-folder="works/time"></div>
-        <header class="work__header">
-          <p class="work__label">2026 · 곧</p>
-          <h3 class="work__name">시간 <span class="work__name-note">(가칭)</span></h3>
-          <p class="work__desc">시간을 아름답게 기억하는 일</p>
-          <p class="work__cta">— 준비 중.</p>
-        </header>
-      </article>
-    </section>
 
     <!-- 페이지 4: Footer (normal scroll) -->
     <footer class="footer">
@@ -197,6 +187,9 @@
         const worksIntroOverlay = worksIntro
           ? worksIntro.querySelector(".works-intro__overlay")
           : null;
+        const worksIntroPreviews = worksIntro
+          ? worksIntro.querySelector(".works-intro__previews")
+          : null;
 
         function ease(t) {
           return t < 0.5
@@ -238,13 +231,16 @@
               "translate3d(0," + (-philProgress * 100) + "%,0)";
           }
 
-          // Works intro brand·overlay: Philosophy 거의 다 사라진 후 페이드인 (philRaw 0.85 ~ 1.0)
+          // Works intro brand·overlay·previews: Philosophy 거의 다 사라진 후 페이드인
           const worksIntroVisible = philRaw >= 0.85;
           if (worksIntroBrand) {
             worksIntroBrand.classList.toggle("is-visible", worksIntroVisible);
           }
           if (worksIntroOverlay) {
             worksIntroOverlay.classList.toggle("is-visible", worksIntroVisible);
+          }
+          if (worksIntroPreviews) {
+            worksIntroPreviews.classList.toggle("is-visible", worksIntroVisible);
           }
 
           // Works intro: 195vh ~ 295vh 동안 위로 슬라이드 (Philosophy와 동일 — 거리 100vh)
