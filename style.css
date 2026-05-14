@@ -14,186 +14,351 @@ html {
   font-feature-settings: "ss03", "tnum";
 }
 
-/* === Tokens === */
+/* === Tokens — Kinfolk 결 (warm off-white + 깊은 남색 accent) === */
 :root {
-  /* 페탈리즘 결 — 미색·먹색 */
-  --ivory: #f4f3ee;
-  --paper: #faf8f3;
-  --ink: #2a2a2a;
+  /* 5월 팔레트 */
+  --paper: #f1efe9;       /* 본문 배경 (warm off-white) */
+  --paper-warm: #ebe9e3;  /* 보조 섹션 (살짝 진한 베이지) */
+  --ink: #1f1f1f;          /* 본문 텍스트 */
   --ink-soft: #4a4a4a;
   --ink-faint: #8a8a8a;
-  --ink-pale: #b8b8b8;
+  --ink-pale: #c8c6c0;
+  --navy: #1b2a4e;         /* 5월 accent — 깊은 남색 (로고 결) */
+  --line: #d6d4cc;
 
-  /* Pretendard 통일 */
-  --font: "Pretendard Variable", "Pretendard", -apple-system,
+  /* Typography */
+  --font-serif: "Noto Serif KR", "EB Garamond", "Times New Roman", serif;
+  --font-sans: "Pretendard Variable", "Pretendard", -apple-system,
     BlinkMacSystemFont, system-ui, sans-serif;
 }
 
 /* === Body === */
 body {
-  background-color: var(--ivory);
+  background-color: var(--paper);
   color: var(--ink);
-  font-family: var(--font);
+  font-family: var(--font-sans);
   font-weight: 400;
   line-height: 1.8;
-  -webkit-text-size-adjust: 100%;
 }
 
 a {
   color: inherit;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-a:hover {
-  color: var(--ink-soft);
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 /* === Section base === */
 section,
 footer {
-  padding: clamp(120px, 18vh, 200px) clamp(24px, 5vw, 64px);
+  padding: clamp(96px, 14vh, 160px) clamp(24px, 5vw, 64px);
 }
 
-/* === Hero === */
+/* === 1. Hero === */
 .hero {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
+  gap: clamp(48px, 8vh, 96px);
+  padding-top: clamp(60px, 10vh, 100px);
+  padding-bottom: clamp(60px, 10vh, 100px);
 }
 
-.hero__inner {
-  max-width: 720px;
+.carousel {
+  position: relative;
+  width: min(540px, 80vw);
+  aspect-ratio: 3 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel__stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.carousel__stage img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.carousel__stage img.is-active {
+  opacity: 1;
+}
+
+.carousel__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--paper-warm);
+  border: 1px solid var(--line);
+  color: var(--ink-faint);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-align: center;
+  padding: 32px;
+}
+
+.carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.carousel__arrow:hover {
+  color: var(--navy);
+}
+
+.carousel__arrow:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+.carousel__arrow--prev {
+  left: -56px;
+}
+
+.carousel__arrow--next {
+  right: -56px;
+}
+
+.carousel__dots {
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.carousel__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--ink-pale);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.carousel__dot.is-active {
+  background-color: var(--navy);
+}
+
+.hero__copy {
+  text-align: center;
+  max-width: 560px;
 }
 
 .wordmark {
-  font-family: var(--font);
-  font-size: clamp(56px, 9vw, 120px);
-  font-weight: 300;
-  letter-spacing: -0.02em;
+  font-family: var(--font-serif);
+  font-size: clamp(52px, 8vw, 96px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
   line-height: 1;
-  margin-bottom: 48px;
-  color: var(--ink);
+  color: var(--navy);
+  margin-bottom: 28px;
 }
 
 .hero__subtitle {
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--ink-faint);
-  margin-bottom: clamp(80px, 12vh, 140px);
+  margin-bottom: 32px;
 }
 
 .hero__lead {
-  font-size: clamp(17px, 2.2vw, 22px);
-  font-weight: 300;
-  letter-spacing: -0.01em;
+  font-family: var(--font-serif);
+  font-size: clamp(18px, 2.2vw, 22px);
+  font-weight: 400;
+  letter-spacing: -0.005em;
   color: var(--ink);
   line-height: 1.7;
+  font-style: italic;
 }
 
-/* === Philosophy === */
+/* === 2. 페탈리즘 설명 === */
 .philosophy {
-  background-color: var(--paper);
+  background-color: var(--paper-warm);
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  min-height: 90vh;
 }
 
 .philosophy__inner {
   max-width: 560px;
+  width: 100%;
 }
 
 .philosophy__line {
-  font-size: clamp(17px, 2vw, 21px);
-  font-weight: 300;
+  font-family: var(--font-serif);
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 400;
   letter-spacing: -0.005em;
-  line-height: 1.9;
+  line-height: 1.85;
   color: var(--ink);
-  margin-bottom: clamp(40px, 6vh, 64px);
+  margin: clamp(40px, 6vh, 64px) 0;
+}
+
+.philosophy__line:first-child {
+  margin-top: 0;
 }
 
 .philosophy__line:last-child {
   margin-bottom: 0;
 }
 
-/* === Chapter === */
-.chapter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  min-height: 90vh;
+.philosophy__figure {
+  margin: clamp(56px, 9vh, 88px) auto;
+  max-width: 440px;
 }
 
-.chapter__inner {
-  max-width: 560px;
+.philosophy__figure img {
   width: 100%;
+  height: auto;
 }
 
-.chapter__label {
+/* === 3. 작품 목록 === */
+.works {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.works__header {
+  text-align: center;
+  margin-bottom: clamp(64px, 10vh, 96px);
+}
+
+.works__label {
   font-size: 12px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--ink-faint);
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
-.chapter__intro {
-  font-size: clamp(16px, 1.8vw, 19px);
-  font-weight: 300;
-  color: var(--ink-soft);
-  margin-bottom: clamp(64px, 10vh, 96px);
-  letter-spacing: -0.005em;
+.works__title {
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  line-height: 1.3;
 }
 
-.chapter__app {
-  margin-bottom: clamp(40px, 6vh, 64px);
+.work {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 480px;
+  width: 100%;
+  margin-bottom: clamp(80px, 12vh, 120px);
 }
 
-.chapter__app-name {
-  font-size: clamp(22px, 3vw, 32px);
+.work__figure {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  margin-bottom: 32px;
+  overflow: hidden;
+  background-color: var(--paper-warm);
+}
+
+.work__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.work__meta {
+  text-align: center;
+}
+
+.work__name {
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 3vw, 34px);
   font-weight: 400;
   letter-spacing: -0.015em;
   line-height: 1.3;
-  color: var(--ink);
+  color: var(--navy);
   margin-bottom: 12px;
 }
 
-.chapter__app-note {
-  font-size: 0.65em;
+.work__name-en {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.85em;
+  color: var(--ink-soft);
+  margin-left: 8px;
+}
+
+.work__name-note {
+  font-family: var(--font-sans);
+  font-size: 0.55em;
   font-weight: 300;
   color: var(--ink-faint);
   letter-spacing: 0;
   margin-left: 6px;
+  vertical-align: middle;
 }
 
-.chapter__app-desc {
-  font-size: clamp(15px, 1.8vw, 18px);
-  font-weight: 300;
+.work__desc {
+  font-family: var(--font-serif);
+  font-size: clamp(16px, 1.9vw, 19px);
+  font-weight: 400;
   color: var(--ink-soft);
   letter-spacing: -0.005em;
   line-height: 1.6;
-}
-
-.chapter__coming {
-  margin-top: clamp(56px, 8vh, 88px);
-  font-size: clamp(15px, 1.8vw, 18px);
-  font-weight: 300;
-  color: var(--ink-faint);
   font-style: italic;
 }
 
-/* === Footer === */
+.works__coming {
+  font-family: var(--font-serif);
+  font-size: clamp(15px, 1.7vw, 17px);
+  font-weight: 400;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-top: clamp(24px, 4vh, 48px);
+}
+
+/* === 4. Footer === */
 .footer {
-  background-color: var(--paper);
+  background-color: var(--paper-warm);
   text-align: center;
-  padding-top: clamp(120px, 16vh, 160px);
-  padding-bottom: clamp(80px, 12vh, 120px);
+  padding-top: clamp(96px, 14vh, 140px);
+  padding-bottom: clamp(64px, 10vh, 100px);
 }
 
 .footer__inner {
@@ -205,38 +370,38 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 64px;
+  gap: 14px;
+  margin-bottom: 56px;
 }
 
 .footer__link {
+  font-family: var(--font-serif);
   font-size: 15px;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: -0.005em;
   color: var(--ink);
   border-bottom: 1px solid transparent;
   padding-bottom: 2px;
-  transition: border-color 0.2s ease;
 }
 
 .footer__link:hover {
-  border-bottom-color: var(--ink-soft);
-  color: var(--ink);
+  border-bottom-color: var(--navy);
+  color: var(--navy);
 }
 
 .footer__divider {
-  width: 24px;
+  width: 20px;
   height: 1px;
-  background-color: var(--ink-pale);
-  margin: 0 auto 48px;
+  background-color: var(--line);
+  margin: 0 auto 40px;
 }
 
 .footer__legal {
   font-size: 11px;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0;
   color: var(--ink-faint);
-  line-height: 1.9;
+  line-height: 2;
 }
 
 .footer__legal--pending {
@@ -244,48 +409,46 @@ footer {
 }
 
 /* === Mobile === */
-@media (max-width: 640px) {
+@media (max-width: 720px) {
   section,
   footer {
-    padding: 80px 24px;
+    padding: 64px 24px;
   }
 
   .hero {
-    min-height: 100vh;
+    min-height: auto;
+    padding-top: 48px;
+    padding-bottom: 48px;
   }
 
-  .philosophy,
-  .chapter {
-    min-height: auto;
+  .carousel__arrow--prev {
+    left: -8px;
+  }
+
+  .carousel__arrow--next {
+    right: -8px;
   }
 
   .philosophy__line br,
-  .chapter__app-desc br {
-    /* 모바일에선 자동 줄바꿈 */
+  .work__desc br {
     display: none;
   }
 }
 
-/* === Scroll fade-in (가벼운 모션 — 가이드 #6) === */
+/* === fade-in (가벼운 모션) === */
 @media (prefers-reduced-motion: no-preference) {
-  .hero__inner,
+  .hero__copy,
   .philosophy__inner,
-  .chapter__inner,
+  .works__header,
+  .work,
   .footer__inner {
     opacity: 0;
     transform: translateY(8px);
     animation: fadeIn 1.2s ease forwards;
   }
 
-  .hero__inner {
-    animation-delay: 0.1s;
-  }
-
-  .philosophy__inner,
-  .chapter__inner,
-  .footer__inner {
-    /* 스크롤 들어와도 부드럽게 (간단 fadeIn — 모든 섹션 동시 발화 X. JS 없이 CSS로) */
-    animation-delay: 0.3s;
+  .hero__copy {
+    animation-delay: 0.6s;
   }
 
   @keyframes fadeIn {

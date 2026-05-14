@@ -15,36 +15,103 @@
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ko_KR" />
 
-    <!-- Pretendard (한·영 통일) -->
+    <!-- 본문 폰트: Pretendard (CDN self-host) -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
     />
 
+    <!-- 헤드라인 폰트: 영문 EB Garamond + 한글 Noto Serif KR -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Serif+KR:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <!-- Hero -->
+    <!-- 1. Hero — weave 엽서 carousel + 워드마크 -->
     <section class="hero">
-      <div class="hero__inner">
+      <div class="carousel" data-carousel>
+        <button
+          class="carousel__arrow carousel__arrow--prev"
+          data-prev
+          aria-label="이전"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M13 4L7 10L13 16"
+              stroke="currentColor"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+        <div class="carousel__stage" data-stage>
+          <!-- 이미지가 들어가면 자동 렌더. 없으면 placeholder. -->
+        </div>
+
+        <button
+          class="carousel__arrow carousel__arrow--next"
+          data-next
+          aria-label="다음"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M7 4L13 10L7 16"
+              stroke="currentColor"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+        <div class="carousel__dots" data-dots></div>
+      </div>
+
+      <div class="hero__copy">
         <h1 class="wordmark">Petalism</h1>
         <p class="hero__subtitle">페탈리즘 스튜디오</p>
         <p class="hero__lead">하루를 아름답게 기억하는 일.</p>
       </div>
     </section>
 
-    <!-- 철학 -->
+    <!-- 2. 페탈리즘 — 깊은 단락 + 이미지 -->
     <section class="philosophy">
       <div class="philosophy__inner">
         <p class="philosophy__line">페탈리즘은 작은 앱들을 만듭니다.</p>
+
+        <figure class="philosophy__figure">
+          <img
+            src="/images/philosophy/01.jpg"
+            alt=""
+            onerror="this.parentElement.style.display='none'"
+          />
+        </figure>
+
         <p class="philosophy__line">
           이미 있던 아름다움을 발견하고<br />
           기록하는 도구들.
         </p>
+
         <p class="philosophy__line">
           하루의 한 장면을 오래 들여다보는 일이<br />
           대단한 일은 아닐지도 모릅니다.
         </p>
+
+        <figure class="philosophy__figure">
+          <img
+            src="/images/philosophy/02.jpg"
+            alt=""
+            onerror="this.parentElement.style.display='none'"
+          />
+        </figure>
+
         <p class="philosophy__line">
           다만, 그 자리에서 시작될 수 있다고<br />
           우리는 믿어요.
@@ -52,27 +119,47 @@
       </div>
     </section>
 
-    <!-- Chapter 1 -->
-    <section class="chapter">
-      <div class="chapter__inner">
-        <p class="chapter__label">Chapter 1 · 자기</p>
-        <p class="chapter__intro">지금 만들고 있는 것</p>
+    <!-- 3. 작품 목록 -->
+    <section class="works">
+      <header class="works__header">
+        <p class="works__label">Chapter 1 · 자기</p>
+        <h2 class="works__title">지금 만들고 있는 것</h2>
+      </header>
 
-        <div class="chapter__app">
-          <h2 class="chapter__app-name">누비 NUBI</h2>
-          <p class="chapter__app-desc">하루를 한 장의 엽서로 남기는 일</p>
+      <article class="work">
+        <figure class="work__figure">
+          <img
+            src="/images/works/nubi.jpg"
+            alt="누비"
+            onerror="this.parentElement.style.display='none'"
+          />
+        </figure>
+        <div class="work__meta">
+          <h3 class="work__name">누비 <span class="work__name-en">NUBI</span></h3>
+          <p class="work__desc">하루를 한 장의 엽서로 남기는 일</p>
         </div>
+      </article>
 
-        <div class="chapter__app">
-          <h2 class="chapter__app-name">시간 <span class="chapter__app-note">(가칭)</span></h2>
-          <p class="chapter__app-desc">시간을 아름답게 기억하는 일</p>
+      <article class="work">
+        <figure class="work__figure">
+          <img
+            src="/images/works/time.jpg"
+            alt="시간"
+            onerror="this.parentElement.style.display='none'"
+          />
+        </figure>
+        <div class="work__meta">
+          <h3 class="work__name">
+            시간 <span class="work__name-note">(가칭)</span>
+          </h3>
+          <p class="work__desc">시간을 아름답게 기억하는 일</p>
         </div>
+      </article>
 
-        <p class="chapter__coming">— 곧 만나요.</p>
-      </div>
+      <p class="works__coming">— 곧 만나요.</p>
     </section>
 
-    <!-- Footer -->
+    <!-- 4. 정보 -->
     <footer class="footer">
       <div class="footer__inner">
         <div class="footer__links">
@@ -95,10 +182,10 @@
         <p class="footer__legal footer__legal--pending">
           통신판매업신고 [발급 후 추가]
         </p>
-        <p class="footer__legal">
-          서울특별시 중랑구 망우로 313, 1302호
-        </p>
+        <p class="footer__legal">서울특별시 중랑구 망우로 313, 1302호</p>
       </div>
     </footer>
+
+    <script src="/carousel.js"></script>
   </body>
 </html>
