@@ -27,6 +27,7 @@
     />
 
     <link rel="stylesheet" href="/style.css" />
+    <script src="/weave.js"></script>
   </head>
   <body>
     <!-- 1. Hero — Kinfolk K59 결: 워드마크 상단 작게 + 큰 카피 + carousel -->
@@ -155,5 +156,31 @@
     </footer>
 
     <script src="/carousel.js"></script>
+    <script>
+      // 누비 v40 weave 효과 — 페탈리즘 사이트 전체 배경에 직조 texture
+      // buildBgWeaveTile: 128×128 tile + CSS background-repeat
+      (function () {
+        if (typeof buildBgWeaveTile !== "function") return;
+        try {
+          // paper #f4f4f4 (메인 body)
+          const tile = buildBgWeaveTile({ r: 244, g: 244, b: 244 }, 128, 1);
+          document.body.style.backgroundImage = "url(" + tile + ")";
+          document.body.style.backgroundRepeat = "repeat";
+
+          // paper-alt #ebebe6 (philosophy, footer 섹션)
+          const tileAlt = buildBgWeaveTile(
+            { r: 235, g: 235, b: 230 },
+            128,
+            1,
+          );
+          const style = document.createElement("style");
+          style.textContent = ".philosophy, .footer { background-image: url(" +
+            tileAlt + "); background-repeat: repeat; }";
+          document.head.appendChild(style);
+        } catch (e) {
+          console.warn("weave tile generation failed:", e);
+        }
+      })();
+    </script>
   </body>
 </html>
