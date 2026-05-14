@@ -109,37 +109,28 @@
     <!-- 페이지 3: Works (normal scroll) -->
     <section class="works">
       <header class="works__header fade-in">
-        <p class="works__label">Chapter 1 · 자기</p>
         <h2 class="works__title">지금 만들고 있는 것</h2>
       </header>
 
-      <article class="work work--featured fade-in" data-work-folder="works/nubi">
-        <div class="work__feature" data-work-feature>
-          <!-- 첫 이미지가 풀 너비 hero로 들어감 (JS) -->
-        </div>
-        <div class="work__feature-meta">
-          <p class="work__feature-label">2026 · 봄</p>
+      <article class="work fade-in">
+        <header class="work__header">
+          <p class="work__label">2026 · 봄</p>
           <h3 class="work__name">누비 <span class="work__name-en">NUBI</span></h3>
           <p class="work__desc">하루를 한 장의 엽서로 남기는 일</p>
-          <p class="work__feature-cta">— 곧 만나요.</p>
-        </div>
+          <p class="work__cta">— 곧 만나요.</p>
+        </header>
+        <div class="cards-row work__cards" data-cards data-cards-folder="works/nubi"></div>
       </article>
 
-      <div class="cards-row work__cards fade-in" data-cards data-cards-folder="works/nubi" data-skip-first="true"></div>
-
-      <article class="work work--featured fade-in" data-work-folder="works/time">
-        <div class="work__feature" data-work-feature>
-          <!-- 첫 이미지 hero -->
-        </div>
-        <div class="work__feature-meta">
-          <p class="work__feature-label">2026 · 곧</p>
+      <article class="work fade-in">
+        <header class="work__header">
+          <p class="work__label">2026 · 곧</p>
           <h3 class="work__name">시간 <span class="work__name-note">(가칭)</span></h3>
           <p class="work__desc">시간을 아름답게 기억하는 일</p>
-          <p class="work__feature-cta">— 준비 중.</p>
-        </div>
+          <p class="work__cta">— 준비 중.</p>
+        </header>
+        <div class="cards-row work__cards" data-cards data-cards-folder="works/time"></div>
       </article>
-
-      <div class="cards-row work__cards fade-in" data-cards data-cards-folder="works/time" data-skip-first="true"></div>
 
       <p class="works__coming">— 곧 만나요.</p>
     </section>

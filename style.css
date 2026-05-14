@@ -528,150 +528,71 @@ footer {
 .work {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: stretch;
   width: 100%;
-  margin-bottom: clamp(40px, 6vh, 64px);
+  margin-bottom: clamp(64px, 10vh, 120px);
 }
 
-.work__meta {
-  margin-bottom: 24px;
+.work__header {
+  padding: 0 clamp(24px, 5vw, 64px);
+  margin-bottom: clamp(20px, 3vh, 32px);
 }
 
-/* Kinfolk SOAK STEAM SPLASH 결 — 풀 너비 이미지 + 좌하단 텍스트 overlay */
-.work--featured {
-  position: relative;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  height: 90vh;
-  min-height: 560px;
-  overflow: hidden;
-  padding: 0;
-  display: block;
-}
-
-.work__feature {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--paper-alt);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.work__feature.is-loaded {
-  opacity: 1;
-}
-
-/* 좌하단 흰 글씨 가독성 위해 어두운 gradient (좌하단 진함) */
-.work--featured::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top right,
-    rgba(0, 0, 0, 0.55) 0%,
-    rgba(0, 0, 0, 0.25) 35%,
-    rgba(0, 0, 0, 0) 65%
-  );
-  z-index: 2;
-  pointer-events: none;
-}
-
-.work__feature-meta {
-  position: absolute;
-  left: clamp(24px, 5vw, 56px);
-  bottom: clamp(32px, 5vh, 64px);
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  max-width: 540px;
-  color: #ffffff;
-}
-
-.work__feature-label {
+.work__label {
   font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.32em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.work--featured .work__name {
-  text-align: left;
-  font-size: clamp(32px, 5vw, 56px);
-  margin-bottom: 0;
-  color: #ffffff;
-  line-height: 1.2;
-}
-
-.work--featured .work__name-en,
-.work--featured .work__name-note {
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.work--featured .work__desc {
-  text-align: left;
-  font-size: clamp(16px, 2vw, 20px);
-  margin-bottom: 0;
-  color: rgba(255, 255, 255, 0.92);
-  line-height: 1.5;
-}
-
-.work__feature-cta {
-  font-family: var(--font-display);
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 8px;
-  letter-spacing: 0.02em;
-}
-
-.work__meta {
-  text-align: center;
+  color: var(--ink-faint);
+  margin-bottom: 16px;
 }
 
 .work__name {
   font-family: var(--font-display);
-  font-size: clamp(18px, 2.2vw, 22px);
+  font-size: clamp(28px, 4vw, 40px);
   font-weight: 400;
-  letter-spacing: -0.005em;
-  line-height: 1.5;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
   color: var(--navy);
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .work__name-en {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: 0.8em;
+  font-size: 0.5em;
   color: var(--ink-soft);
-  margin-left: 6px;
+  margin-left: 10px;
+  letter-spacing: 0.05em;
 }
 
 .work__name-note {
   font-family: var(--font-sans);
-  font-size: 0.6em;
+  font-size: 0.38em;
   font-weight: 400;
   color: var(--ink-faint);
   letter-spacing: 0;
-  margin-left: 6px;
+  margin-left: 8px;
   vertical-align: middle;
 }
 
 .work__desc {
   font-family: var(--font-display);
-  font-size: clamp(13px, 1.4vw, 15px);
+  font-size: clamp(15px, 1.7vw, 17px);
   font-weight: 400;
   color: var(--ink-soft);
   letter-spacing: -0.005em;
-  line-height: 1.7;
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+.work__cta {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--ink-faint);
+  letter-spacing: 0.02em;
+  margin-top: 4px;
 }
 
 .works__coming {

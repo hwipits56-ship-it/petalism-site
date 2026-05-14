@@ -188,27 +188,6 @@
     });
   });
 
-  // === Work feature hero — pre-load 후 fade-in ===
-  document.querySelectorAll("[data-work-folder]").forEach((work) => {
-    const folder = work.getAttribute("data-work-folder");
-    if (!folder) return;
-    const feature = work.querySelector("[data-work-feature]");
-    if (!feature) return;
-
-    detectImages(folder).then((images) => {
-      if (images.length === 0) {
-        work.style.display = "none";
-        return;
-      }
-      const preload = new Image();
-      preload.onload = () => {
-        feature.style.backgroundImage = "url(" + images[0] + ")";
-        requestAnimationFrame(() => feature.classList.add("is-loaded"));
-      };
-      preload.src = images[0];
-    });
-  });
-
   // === Cards row (Kinfolk Inside Issue grid 결) — Philosophy·Works ===
   document.querySelectorAll("[data-cards]").forEach((row) => {
     const folder = row.getAttribute("data-cards-folder");
@@ -218,7 +197,13 @@
     detectImages(folder).then((images) => {
       if (skipFirst) images = images.slice(1);
       if (images.length === 0) {
-        row.style.display = "none";
+        // 이미지 없으면 그 row가 속한 work 전체를 숨김 (header 까지)
+        const parentWork = row.closest(".work");
+        if (parentWork) {
+          parentWork.style.display = "none";
+        } else {
+          row.style.display = "none";
+        }
         return;
       }
       images.forEach((url) => {
