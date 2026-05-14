@@ -70,15 +70,31 @@ footer {
   padding: clamp(40px, 7vh, 80px) clamp(24px, 5vw, 48px);
 }
 
-/* === 1. Hero === */
+/* === 1. Hero — sticky (Kinfolk 스크롤 결: 다음 섹션이 그 위로 올라옴) === */
 .hero {
-  position: relative;
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding-top: clamp(72px, 10vh, 100px);
   padding-bottom: clamp(40px, 6vh, 64px);
+  z-index: 0;
+}
+
+/* Hero 위로 미끄러져 오는 섹션들 */
+.philosophy,
+.works,
+.footer {
+  position: relative;
+  z-index: 1;
+  background-color: var(--paper-alt);
+}
+
+.works {
+  background-color: var(--paper);
 }
 
 .hero__brand {
@@ -238,6 +254,22 @@ footer {
 
 .carousel__dot.is-active {
   background-color: var(--navy);
+}
+
+/* === Break image (Kinfolk 풀 너비 사진 결) === */
+.break-image {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: clamp(280px, 50vh, 520px);
+  padding: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--paper-alt);
+}
+
+.break-image--empty {
+  display: none;
 }
 
 /* === 2. 페탈리즘 설명 === */

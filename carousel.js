@@ -160,6 +160,17 @@
     });
   });
 
+  // === Break image — /images/breaks/ 안 첫 이미지를 풀 너비 background로 ===
+  document.querySelectorAll("[data-break-image]").forEach((el) => {
+    detectImages("breaks").then((images) => {
+      if (images.length === 0) {
+        el.classList.add("break-image--empty");
+        return;
+      }
+      el.style.backgroundImage = "url(" + images[0] + ")";
+    });
+  });
+
   // === Work feature hero — 첫 이미지를 풀 너비 background로 ===
   document.querySelectorAll("[data-work-folder]").forEach((work) => {
     const folder = work.getAttribute("data-work-folder");
