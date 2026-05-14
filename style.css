@@ -131,15 +131,14 @@ footer {
   pointer-events: none;
 }
 
-/* === 3페이지 intro (fixed, z-index 3 — Philosophy 뒤에서 드러남) === */
-/* 영역 35dvh — 페탈리즘 + 헤딩이 자연 흐름으로, 그 아래 작품 카드 첫 부분 보임 */
+/* === 3페이지 intro (fixed, z-index 3 — Philosophy와 정확히 동일 패턴) === */
 .works-intro {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 35vh; /* fallback */
-  height: 35dvh;
+  height: 100vh; /* fallback */
+  height: 100dvh;
   overflow: hidden;
   background-color: var(--paper);
   z-index: 3;
@@ -147,8 +146,8 @@ footer {
 }
 
 .works-intro-spacer {
-  height: 35vh;
-  height: 35dvh;
+  height: 100vh;
+  height: 100dvh;
   pointer-events: none;
 }
 
@@ -165,11 +164,11 @@ footer {
   opacity: 1;
 }
 
-/* 헤딩 — 페탈리즘 로고 바로 아래 (좌상단 자연 흐름, 빈 공간 X) */
+/* 헤딩 좌하단 (사용자 이전 명시) */
 .works-intro__overlay {
   position: absolute;
-  top: clamp(72px, 10vh, 96px); /* brand 20~32px + 여유 */
   left: clamp(24px, 5vw, 48px);
+  bottom: clamp(32px, 6vh, 72px);
   max-width: 440px;
   text-align: left;
   z-index: 3;

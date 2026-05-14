@@ -247,12 +247,12 @@
             worksIntroOverlay.classList.toggle("is-visible", worksIntroVisible);
           }
 
-          // Works intro: 195vh ~ 230vh 동안 위로 슬라이드 (거리 35vh — 영역 사이즈와 일치)
+          // Works intro: 195vh ~ 295vh 동안 위로 슬라이드 (Philosophy와 동일 — 거리 100vh)
           if (worksIntro) {
             const worksStart = vh * 1.95;
             const worksRaw = Math.max(
               0,
-              Math.min(1, (y - worksStart) / (vh * 0.35)),
+              Math.min(1, (y - worksStart) / vh),
             );
             const worksProgress = ease(worksRaw);
             worksIntro.style.transform =
