@@ -35,7 +35,7 @@
         <p class="hero__subtitle">페탈리즘 스튜디오</p>
       </div>
 
-      <div class="carousel" data-carousel>
+      <div class="carousel" data-carousel data-carousel-folder="weave-cards">
         <button
           class="carousel__arrow carousel__arrow--prev"
           data-prev
@@ -120,13 +120,44 @@
       </header>
 
       <article class="work">
-        <figure class="work__figure">
-          <img
-            src="/images/works/nubi.jpg"
-            alt="누비"
-            onerror="this.parentElement.style.display='none'"
-          />
-        </figure>
+        <div
+          class="carousel work__carousel"
+          data-carousel
+          data-carousel-folder="works/nubi"
+        >
+          <button
+            class="carousel__arrow carousel__arrow--prev"
+            data-prev
+            aria-label="이전"
+          >
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M13 4L7 10L13 16"
+                stroke="currentColor"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <div class="carousel__stage" data-stage></div>
+          <button
+            class="carousel__arrow carousel__arrow--next"
+            data-next
+            aria-label="다음"
+          >
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M7 4L13 10L7 16"
+                stroke="currentColor"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <div class="carousel__dots" data-dots></div>
+        </div>
         <div class="work__meta">
           <h3 class="work__name">누비 <span class="work__name-en">NUBI</span></h3>
           <p class="work__desc">하루를 한 장의 엽서로 남기는 일</p>
@@ -134,13 +165,44 @@
       </article>
 
       <article class="work">
-        <figure class="work__figure">
-          <img
-            src="/images/works/time.jpg"
-            alt="시간"
-            onerror="this.parentElement.style.display='none'"
-          />
-        </figure>
+        <div
+          class="carousel work__carousel"
+          data-carousel
+          data-carousel-folder="works/time"
+        >
+          <button
+            class="carousel__arrow carousel__arrow--prev"
+            data-prev
+            aria-label="이전"
+          >
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M13 4L7 10L13 16"
+                stroke="currentColor"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <div class="carousel__stage" data-stage></div>
+          <button
+            class="carousel__arrow carousel__arrow--next"
+            data-next
+            aria-label="다음"
+          >
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M7 4L13 10L7 16"
+                stroke="currentColor"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <div class="carousel__dots" data-dots></div>
+        </div>
         <div class="work__meta">
           <h3 class="work__name">
             시간 <span class="work__name-note">(가칭)</span>

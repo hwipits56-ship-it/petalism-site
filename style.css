@@ -306,18 +306,27 @@ footer {
   margin-bottom: clamp(56px, 9vh, 88px);
 }
 
-.work__figure {
+.work__carousel {
   width: 100%;
   aspect-ratio: 3 / 4;
   margin-bottom: 24px;
-  overflow: hidden;
-  background-color: var(--paper-alt);
 }
 
-.work__figure img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.work__carousel .carousel__arrow {
+  width: 32px;
+  height: 32px;
+}
+
+.work__carousel .carousel__arrow--prev {
+  left: -36px;
+}
+
+.work__carousel .carousel__arrow--next {
+  right: -36px;
+}
+
+.work__carousel .carousel__dots {
+  bottom: -20px;
 }
 
 .work__meta {
