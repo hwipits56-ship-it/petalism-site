@@ -115,40 +115,306 @@ footer {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh; /* fallback */
-  height: 100dvh;
+  height: 95vh; /* fallback — 1페이지와 통일, 다음 페이지 5dvh 미리보기 */
+  height: 95dvh;
   overflow: hidden;
   padding: 0;
-  background-color: var(--navy); /* 이미지 없을 때 fallback */
-  z-index: 5; /* Hero(10) 뒤에 자리잡혀 있다가 Hero 사라지면 드러남 */
+  background-color: var(--navy);
+  z-index: 5;
   will-change: transform, opacity;
 }
 
-/* Philosophy가 fixed라 layout에서 빠짐 → spacer로 그 자리 확보 (100vh) */
 .philosophy-spacer {
-  height: 100vh;
-  height: 100dvh;
+  height: 95vh;
+  height: 95dvh;
   pointer-events: none;
 }
 
-/* === 3페이지 intro (fixed, z-index 3 — Philosophy와 정확히 동일 패턴) === */
+/* === 3페이지 Works carousel (fixed 95dvh — 누비 ↔ 시간 좌우 전환) === */
 .works-intro {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh; /* fallback */
-  height: 100dvh;
+  height: 95vh;
+  height: 95dvh;
   overflow: hidden;
-  background-color: var(--paper);
+  background-color: #2a2f38; /* 이미지 없을 때 fallback (어두운 회색 — paper와 결 분리) */
   z-index: 3;
   will-change: transform;
 }
 
 .works-intro-spacer {
-  height: 100vh;
-  height: 100dvh;
+  height: 95vh;
+  height: 95dvh;
   pointer-events: none;
+}
+
+/* 슬라이드 — 배경 이미지가 한 번에 하나만 보임 */
+.works-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1;
+}
+
+.works-slide.is-active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.works-slide__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: brightness(0.78);
+}
+
+.works-slide__bg.is-loaded {
+  opacity: 1;
+}
+
+/* 좌하단 어두운 gradient — 우하단 흰 텍스트 가독성 */
+.works-intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top left,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.2) 40%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* 우상단 PROJECT 라벨 */
+.works-intro__page-label {
+  position: absolute;
+  top: clamp(20px, 3vh, 32px);
+  right: clamp(24px, 5vw, 48px);
+  z-index: 5;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.works-intro__page-label.is-visible {
+  opacity: 1;
+}
+
+/* 카드 row — 슬라이드별 토글 */
+.works-slide__cards-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.works-slide__cards {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.works-slide__cards.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.works-slide__cards .cards-row {
+  padding: 0 clamp(64px, 10vw, 120px); /* 화살표 영역 확보 */
+}
+
+.works-slide__cards .cards-row__card {
+  flex: 0 0 calc((100vw - clamp(64px, 10vw, 120px) * 2 - 16px * 3) / 4);
+  max-width: 200px;
+  aspect-ratio: 9 / 16;
+}
+
+.works-slide__cards .cards-row__card img {
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 우하단 프로젝트 정보 */
+.works-slide__meta-wrap {
+  position: absolute;
+  right: clamp(24px, 5vw, 56px);
+  bottom: clamp(32px, 6vh, 56px);
+  z-index: 5;
+  max-width: 440px;
+  text-align: right;
+  pointer-events: none;
+}
+
+.works-slide__meta {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: max-content;
+  max-width: 440px;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  text-align: right;
+}
+
+.works-slide__meta.is-active {
+  opacity: 1;
+}
+
+.works-slide__label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 10px;
+}
+
+.works-slide__name {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3.4vw, 36px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+
+.works-slide__name-en {
+  font-size: 0.5em;
+  color: rgba(255, 255, 255, 0.75);
+  margin-left: 10px;
+  letter-spacing: 0.05em;
+}
+
+.works-slide__name-note {
+  font-family: var(--font-sans);
+  font-size: 0.38em;
+  color: rgba(255, 255, 255, 0.65);
+  margin-left: 8px;
+}
+
+.works-slide__desc {
+  font-family: var(--font-display);
+  font-size: clamp(13px, 1.4vw, 15px);
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.works-slide__cta {
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.02em;
+}
+
+/* 좌우 화살표 */
+.works-carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: #ffffff;
+  cursor: pointer;
+  z-index: 6;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.works-carousel__arrow:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.works-carousel__arrow--prev {
+  left: clamp(12px, 2vw, 24px);
+}
+
+.works-carousel__arrow--next {
+  right: clamp(12px, 2vw, 24px);
+}
+
+/* 슬라이드 인디케이터 */
+.works-carousel__dots {
+  position: absolute;
+  bottom: clamp(16px, 2vh, 24px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 6;
+}
+
+.works-carousel__dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s ease;
+}
+
+.works-carousel__dot.is-active {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* 모바일 — 카드 사이즈 줄임, 화살표 작게 */
+@media (max-width: 720px) {
+  .works-slide__cards .cards-row {
+    padding: 0 56px;
+  }
+
+  .works-slide__cards .cards-row__card {
+    flex: 0 0 32vw;
+    max-width: 150px;
+  }
+
+  .works-carousel__arrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  .works-carousel__arrow--prev {
+    left: 8px;
+  }
+
+  .works-carousel__arrow--next {
+    right: 8px;
+  }
 }
 
 .works-intro__brand {
@@ -162,6 +428,10 @@ footer {
 
 .works-intro__brand.is-visible {
   opacity: 1;
+}
+
+.works-intro__brand .wordmark {
+  color: #ffffff;
 }
 
 /* 헤딩 좌하단 */

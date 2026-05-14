@@ -108,35 +108,68 @@
     <!-- Philosophy가 fixed라 layout에서 빠짐 → spacer로 그 자리 확보 -->
     <div class="philosophy-spacer" aria-hidden="true"></div>
 
-    <!-- 페이지 3: Works (fixed 100dvh, z-index 3) — 헤딩 + 작품 카드 한 viewport 통합 -->
-    <section class="works-intro">
+    <!-- 페이지 3: Works carousel (fixed 95dvh, z-index 3) — 누비 ↔ 시간 좌우 carousel -->
+    <section class="works-intro" data-works-carousel>
+      <!-- 슬라이드 배경 (각 프로젝트마다 다른 이미지) -->
+      <div class="works-slide is-active" data-works-slide>
+        <div class="works-slide__bg" data-bg-folder="works/nubi"></div>
+      </div>
+      <div class="works-slide" data-works-slide>
+        <div class="works-slide__bg" data-bg-folder="works/time"></div>
+      </div>
+
+      <!-- 좌상단 페탈리즘 + 우상단 PROJECT 라벨 -->
       <header class="works-intro__brand">
         <p class="wordmark">Petalism</p>
       </header>
-      <div class="works-intro__overlay">
-        <p class="works-intro__label">2026</p>
-        <h2 class="works-intro__heading">지금 만들고 있는 것</h2>
-      </div>
-      <div class="works-intro__previews">
-        <article class="work-preview">
-          <div class="cards-row work-preview__cards" data-cards data-cards-folder="works/nubi"></div>
-          <div class="work-preview__meta">
-            <h3 class="work-preview__name">누비 <span class="work-preview__name-en">NUBI</span></h3>
-            <p class="work-preview__desc">하루를 한 장의 엽서로 — 2026 봄</p>
-          </div>
-        </article>
+      <p class="works-intro__page-label">PROJECT</p>
 
-        <article class="work-preview">
-          <div class="cards-row work-preview__cards" data-cards data-cards-folder="works/time"></div>
-          <div class="work-preview__meta">
-            <h3 class="work-preview__name">시간 <span class="work-preview__name-note">(가칭)</span></h3>
-            <p class="work-preview__desc">시간을 아름답게 기억하는 일 — 2026 곧</p>
-          </div>
-        </article>
+      <!-- 작품 카드 row (슬라이드별 — JS로 토글) -->
+      <div class="works-slide__cards-wrap">
+        <div class="works-slide__cards is-active" data-cards-for="0">
+          <div class="cards-row" data-cards data-cards-folder="works/nubi"></div>
+        </div>
+        <div class="works-slide__cards" data-cards-for="1">
+          <div class="cards-row" data-cards data-cards-folder="works/time"></div>
+        </div>
+      </div>
+
+      <!-- 우하단 프로젝트 정보 (슬라이드별) -->
+      <div class="works-slide__meta-wrap">
+        <div class="works-slide__meta is-active" data-meta-for="0">
+          <p class="works-slide__label">2026 · 봄</p>
+          <h3 class="works-slide__name">누비 <span class="works-slide__name-en">NUBI</span></h3>
+          <p class="works-slide__desc">하루를 한 장의 엽서로 남기는 일</p>
+          <p class="works-slide__cta">— 곧 만나요.</p>
+        </div>
+        <div class="works-slide__meta" data-meta-for="1">
+          <p class="works-slide__label">2026 · 곧</p>
+          <h3 class="works-slide__name">시간 <span class="works-slide__name-note">(가칭)</span></h3>
+          <p class="works-slide__desc">시간을 아름답게 기억하는 일</p>
+          <p class="works-slide__cta">— 준비 중.</p>
+        </div>
+      </div>
+
+      <!-- 좌우 화살표 -->
+      <button class="works-carousel__arrow works-carousel__arrow--prev" data-works-prev aria-label="이전 프로젝트">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M13 4L7 10L13 16" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="works-carousel__arrow works-carousel__arrow--next" data-works-next aria-label="다음 프로젝트">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M7 4L13 10L7 16" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <!-- 슬라이드 인디케이터 -->
+      <div class="works-carousel__dots">
+        <button class="works-carousel__dot is-active" data-works-dot="0" aria-label="누비"></button>
+        <button class="works-carousel__dot" data-works-dot="1" aria-label="시간"></button>
       </div>
     </section>
 
-    <!-- Works intro spacer (100dvh) — fixed라 자리 확보 -->
+    <!-- Works intro spacer (95dvh) -->
     <div class="works-intro-spacer" aria-hidden="true"></div>
 
     <!-- 페이지 4: Footer (normal scroll) -->
@@ -168,6 +201,43 @@
 
     <script src="/carousel.js"></script>
     <script>
+      // === 페이지 3 Works carousel — 좌우 화살표로 누비 ↔ 시간 전환 ===
+      (function () {
+        const carousel = document.querySelector("[data-works-carousel]");
+        if (!carousel) return;
+        const slides = carousel.querySelectorAll("[data-works-slide]");
+        const cardsGroups = carousel.querySelectorAll("[data-cards-for]");
+        const metaGroups = carousel.querySelectorAll("[data-meta-for]");
+        const dots = carousel.querySelectorAll("[data-works-dot]");
+        const prevBtn = carousel.querySelector("[data-works-prev]");
+        const nextBtn = carousel.querySelector("[data-works-next]");
+        if (!slides.length) return;
+
+        let active = 0;
+        const count = slides.length;
+
+        function goto(idx) {
+          const next = ((idx % count) + count) % count;
+          if (next === active) return;
+          slides[active].classList.remove("is-active");
+          cardsGroups[active].classList.remove("is-active");
+          metaGroups[active].classList.remove("is-active");
+          dots[active].classList.remove("is-active");
+          active = next;
+          slides[active].classList.add("is-active");
+          cardsGroups[active].classList.add("is-active");
+          metaGroups[active].classList.add("is-active");
+          dots[active].classList.add("is-active");
+        }
+
+        if (prevBtn) prevBtn.addEventListener("click", () => goto(active - 1));
+        if (nextBtn) nextBtn.addEventListener("click", () => goto(active + 1));
+        dots.forEach((dot, idx) => {
+          dot.addEventListener("click", () => goto(idx));
+        });
+      })();
+    </script>
+    <script>
       // === 1→2 transition: Hero(fixed) 사라지면서 Philosophy(fixed, 뒤에 있던) 드러남 ===
       // 2→3 transition: Philosophy도 fixed → transform으로 위로 사라짐, Works normal scroll
       (function () {
@@ -184,11 +254,8 @@
         const worksIntroBrand = worksIntro
           ? worksIntro.querySelector(".works-intro__brand")
           : null;
-        const worksIntroOverlay = worksIntro
-          ? worksIntro.querySelector(".works-intro__overlay")
-          : null;
-        const worksIntroPreviews = worksIntro
-          ? worksIntro.querySelector(".works-intro__previews")
+        const worksIntroPageLabel = worksIntro
+          ? worksIntro.querySelector(".works-intro__page-label")
           : null;
 
         function ease(t) {
@@ -218,37 +285,34 @@
             philosophyOverlay.classList.toggle("is-visible", philosophyVisible);
           }
 
-          // Philosophy: 95vh ~ 195vh 동안 위로 슬라이드 (페이드 X, translateY만)
+          // Philosophy: 95vh ~ 190vh 동안 위로 슬라이드 (거리 95vh — Hero와 통일)
           let philRaw = 0;
           if (philosophy) {
             const philStart = vh * 0.95;
             philRaw = Math.max(
               0,
-              Math.min(1, (y - philStart) / vh),
+              Math.min(1, (y - philStart) / (vh * 0.95)),
             );
             const philProgress = ease(philRaw);
             philosophy.style.transform =
               "translate3d(0," + (-philProgress * 100) + "%,0)";
           }
 
-          // Works intro brand·overlay·previews: Philosophy 거의 다 사라진 후 페이드인
+          // Works intro brand·page label: Philosophy 거의 다 사라진 후 페이드인
           const worksIntroVisible = philRaw >= 0.85;
           if (worksIntroBrand) {
             worksIntroBrand.classList.toggle("is-visible", worksIntroVisible);
           }
-          if (worksIntroOverlay) {
-            worksIntroOverlay.classList.toggle("is-visible", worksIntroVisible);
-          }
-          if (worksIntroPreviews) {
-            worksIntroPreviews.classList.toggle("is-visible", worksIntroVisible);
+          if (worksIntroPageLabel) {
+            worksIntroPageLabel.classList.toggle("is-visible", worksIntroVisible);
           }
 
-          // Works intro: 195vh ~ 295vh 동안 위로 슬라이드 (Philosophy와 동일 — 거리 100vh)
+          // Works intro: 190vh ~ 285vh 동안 위로 슬라이드 (거리 95vh — Hero·Philosophy와 통일)
           if (worksIntro) {
-            const worksStart = vh * 1.95;
+            const worksStart = vh * 1.9;
             const worksRaw = Math.max(
               0,
-              Math.min(1, (y - worksStart) / vh),
+              Math.min(1, (y - worksStart) / (vh * 0.95)),
             );
             const worksProgress = ease(worksRaw);
             worksIntro.style.transform =

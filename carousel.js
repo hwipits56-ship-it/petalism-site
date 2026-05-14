@@ -188,6 +188,25 @@
     });
   });
 
+  // === Works slide bg — /images/<folder>/bg.png 또는 bg.jpg ===
+  document.querySelectorAll("[data-bg-folder]").forEach((el) => {
+    const folder = el.getAttribute("data-bg-folder");
+    if (!folder) return;
+    function tryLoad(exts) {
+      if (exts.length === 0) return;
+      const ext = exts[0];
+      const url = `/images/${folder}/bg.${ext}`;
+      const img = new Image();
+      img.onload = () => {
+        el.style.backgroundImage = "url(" + url + ")";
+        requestAnimationFrame(() => el.classList.add("is-loaded"));
+      };
+      img.onerror = () => tryLoad(exts.slice(1));
+      img.src = url;
+    }
+    tryLoad(["png", "jpg", "jpeg", "webp"]);
+  });
+
   // === Cards row (Kinfolk Inside Issue grid 결) — Philosophy·Works ===
   document.querySelectorAll("[data-cards]").forEach((row) => {
     const folder = row.getAttribute("data-cards-folder");
