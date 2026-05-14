@@ -29,11 +29,8 @@
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <!-- 페이지 1: Hero — page-wrap이 sticky context (200vh)
-         1페이지가 100vh stays 후 100vh transition으로 위로 사라짐.
-         그 뒤에 자리잡힌 2페이지(z-index 더 낮음)가 드러남. -->
-    <div class="page-wrap">
-    <section class="hero">
+    <!-- 페이지 1: Hero (fixed) — JS scroll listener로 transform translateY 적용 -->
+    <section class="hero" data-page="0">
       <header class="hero__brand">
         <p class="wordmark">Petalism</p>
       </header>
@@ -81,16 +78,9 @@
         <div class="carousel__dots" data-dots></div>
       </div>
     </section>
-    </div>
 
-    <!-- 가로 break 이미지 (이미지 있으면 별도 page-wrap) -->
-    <div class="page-wrap" data-break-wrap>
-    <section class="break-image" data-break-image></section>
-    </div>
-
-    <!-- 페이지 2: Philosophy — 시적 단락 + 카드뉴스 grid -->
-    <div class="page-wrap">
-    <section class="philosophy">
+    <!-- 페이지 2: Philosophy (fixed) -->
+    <section class="philosophy" data-page="1">
       <div class="philosophy__inner">
         <p class="philosophy__line">
           페탈리즘은 작은 앱들을 만듭니다.<br />
@@ -100,11 +90,9 @@
 
       <div class="cards-row" data-cards data-cards-folder="philosophy"></div>
     </section>
-    </div>
 
-    <!-- 페이지 3: Works -->
-    <div class="page-wrap">
-    <section class="works">
+    <!-- 페이지 3: Works (fixed) -->
+    <section class="works" data-page="2">
       <header class="works__header">
         <p class="works__label">Chapter 1 · 자기</p>
         <h2 class="works__title">지금 만들고 있는 것</h2>
@@ -140,11 +128,9 @@
 
       <p class="works__coming">— 곧 만나요.</p>
     </section>
-    </div>
 
-    <!-- 페이지 4: Footer (마지막 — 일반 layout) -->
-    <div class="page-wrap">
-    <footer class="footer">
+    <!-- 페이지 4: Footer (fixed, 마지막 — transform 안 됨, 그대로 stays) -->
+    <footer class="footer" data-page="3">
       <div class="footer__inner">
         <div class="footer__links">
           <a
@@ -169,8 +155,30 @@
         <p class="footer__legal">서울특별시 중랑구 망우로 313, 1302호</p>
       </div>
     </footer>
-    </div>
+
+    <!-- Scroll spacer — body height를 확보해 scroll 가능하게 -->
+    <div class="scroll-spacer" aria-hidden="true"></div>
 
     <script src="/carousel.js"></script>
+    <script>
+      // 페이지 transform translateY (1,2,3 페이지가 각 100vh 스크롤마다 위로 사라짐. 4는 그대로)
+      (function () {
+        const pages = document.querySelectorAll("[data-page]");
+        if (!pages.length) return;
+        function update() {
+          const y = window.scrollY;
+          const vh = window.innerHeight;
+          pages.forEach((page, i) => {
+            if (i === pages.length - 1) return; // 마지막 페이지는 transform 안 함
+            const start = i * vh;
+            const progress = Math.max(0, Math.min(1, (y - start) / vh));
+            page.style.transform = "translateY(" + (-progress * 100) + "%)";
+          });
+        }
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+        update();
+      })();
+    </script>
   </body>
 </html>
