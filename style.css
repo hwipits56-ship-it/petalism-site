@@ -72,13 +72,12 @@ footer {
 
 /* === 1. Hero === */
 .hero {
-  min-height: 100vh;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: clamp(24px, 4vh, 48px);
+  padding-top: clamp(72px, 10vh, 100px);
   padding-bottom: clamp(40px, 6vh, 64px);
 }
 
@@ -106,12 +105,12 @@ footer {
 
 .hero__title-block {
   text-align: center;
-  margin-bottom: clamp(32px, 5vh, 56px);
+  margin-bottom: clamp(24px, 4vh, 40px);
 }
 
 .hero__title {
   font-family: var(--font-display);
-  font-size: clamp(22px, 3.2vw, 32px);
+  font-size: clamp(20px, 2.6vw, 26px);
   font-weight: 400;
   letter-spacing: -0.005em;
   line-height: 1.5;
@@ -121,7 +120,7 @@ footer {
 /* === Carousel === */
 .carousel {
   position: relative;
-  width: min(520px, 85vw);
+  width: min(380px, 70vw);
   aspect-ratio: 3 / 4;
   display: flex;
   align-items: center;
@@ -240,12 +239,12 @@ footer {
 
 .philosophy__line {
   font-family: var(--font-display);
-  font-size: clamp(15px, 1.6vw, 17px);
+  font-size: clamp(12px, 1.2vw, 14px);
   font-weight: 400;
   letter-spacing: -0.005em;
-  line-height: 1.9;
-  color: var(--ink);
-  margin: clamp(20px, 3vh, 32px) 0;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  margin: clamp(16px, 2.5vh, 24px) 0;
 }
 
 .philosophy__line:first-child {
@@ -259,7 +258,8 @@ footer {
 /* === Cards row — Kinfolk Inside Issue 결 (가로 스크롤 grid) === */
 .cards-row {
   display: flex;
-  gap: 16px;
+  gap: 20px;
+  justify-content: center; /* 한 화면 안에 다 들어가면 중앙. 넘치면 자동 left */
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   width: 100%;
@@ -284,10 +284,10 @@ footer {
 
 .cards-row__card {
   flex: 0 0 auto;
-  width: 260px;
+  width: 380px;
   aspect-ratio: 1 / 1;
   background-color: var(--paper);
-  scroll-snap-align: start;
+  scroll-snap-align: center;
   overflow: hidden;
 }
 
@@ -299,7 +299,7 @@ footer {
 
 /* 누비 등 work__cards 는 세로 비율 (스크린샷 결) */
 .work__cards .cards-row__card {
-  width: 200px;
+  width: 220px;
   aspect-ratio: 9 / 16;
 }
 
