@@ -174,15 +174,21 @@
     });
   });
 
-  // === Philosophy bg — /images/philosophy/bg.jpg 같이 첫 이미지를 풀 너비 background로 ===
+  // === Philosophy bg — pre-load 후 fade-in (갑자기 뜨지 않음) ===
   document.querySelectorAll("[data-philosophy-bg]").forEach((el) => {
     detectImages("philosophy").then((images) => {
       if (images.length === 0) return;
-      el.style.backgroundImage = "url(" + images[0] + ")";
+      const preload = new Image();
+      preload.onload = () => {
+        el.style.backgroundImage = "url(" + images[0] + ")";
+        // 다음 frame에 class 추가 (transition 트리거)
+        requestAnimationFrame(() => el.classList.add("is-loaded"));
+      };
+      preload.src = images[0];
     });
   });
 
-  // === Work feature hero — 첫 이미지를 풀 너비 background로 ===
+  // === Work feature hero — pre-load 후 fade-in ===
   document.querySelectorAll("[data-work-folder]").forEach((work) => {
     const folder = work.getAttribute("data-work-folder");
     if (!folder) return;
@@ -194,7 +200,12 @@
         work.style.display = "none";
         return;
       }
-      feature.style.backgroundImage = "url(" + images[0] + ")";
+      const preload = new Image();
+      preload.onload = () => {
+        feature.style.backgroundImage = "url(" + images[0] + ")";
+        requestAnimationFrame(() => feature.classList.add("is-loaded"));
+      };
+      preload.src = images[0];
     });
   });
 
@@ -214,9 +225,12 @@
         const card = document.createElement("div");
         card.className = "cards-row__card";
         const img = document.createElement("img");
-        img.src = url;
         img.alt = "";
         img.loading = "lazy";
+        img.addEventListener("load", () => {
+          requestAnimationFrame(() => img.classList.add("is-loaded"));
+        });
+        img.src = url;
         card.appendChild(img);
         row.appendChild(card);
       });

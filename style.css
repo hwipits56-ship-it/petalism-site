@@ -121,6 +121,12 @@ footer {
   background-size: cover;
   background-position: center;
   z-index: 1;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.philosophy__bg.is-loaded {
+  opacity: 1;
 }
 
 /* 좌하단 흰 글씨 가독성 위해 어두운 gradient */
@@ -423,6 +429,12 @@ footer {
   width: 100%;
   height: auto;
   display: block;
+  opacity: 0;
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cards-row__card img.is-loaded {
+  opacity: 1;
 }
 
 /* 누비 등 work__cards 는 세로 비율 (스크린샷 결, 9:16 고정) */
@@ -515,6 +527,12 @@ footer {
   background-position: center;
   background-repeat: no-repeat;
   z-index: 1;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.work__feature.is-loaded {
+  opacity: 1;
 }
 
 /* 좌하단 흰 글씨 가독성 위해 어두운 gradient (좌하단 진함) */
