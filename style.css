@@ -102,11 +102,11 @@ footer {
 }
 
 .hero__title {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: clamp(22px, 3.2vw, 32px);
   font-weight: 400;
   letter-spacing: -0.005em;
-  line-height: 1.4;
+  line-height: 1.5;
   color: var(--ink);
 }
 
@@ -239,11 +239,11 @@ footer {
 }
 
 .philosophy__line {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: clamp(15px, 1.6vw, 17px);
   font-weight: 400;
   letter-spacing: -0.005em;
-  line-height: 1.9;
+  line-height: 2;
   color: var(--ink);
   margin: clamp(32px, 5vh, 48px) 0;
 }
@@ -288,12 +288,12 @@ footer {
 }
 
 .works__title {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: clamp(18px, 2.2vw, 22px);
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  font-weight: 400;
+  letter-spacing: -0.005em;
   color: var(--ink);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .work {
@@ -325,17 +325,17 @@ footer {
 }
 
 .work__name {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: clamp(18px, 2.2vw, 22px);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.4;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  line-height: 1.5;
   color: var(--navy);
   margin-bottom: 8px;
 }
 
 .work__name-en {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: 0.8em;
   color: var(--ink-soft);
@@ -353,16 +353,16 @@ footer {
 }
 
 .work__desc {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: clamp(13px, 1.4vw, 15px);
   font-weight: 400;
   color: var(--ink-soft);
   letter-spacing: -0.005em;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 .works__coming {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: 13px;
   font-weight: 400;
   color: var(--ink-faint);
