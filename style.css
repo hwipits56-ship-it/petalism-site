@@ -50,6 +50,9 @@ body {
   font-weight: 400;
   line-height: 1.7;
   font-size: 14px;
+  /* 한국어 어절 단위 줄넘김 (단어 중간에 끊기지 않음) */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 a {
@@ -244,15 +247,15 @@ footer {
 
 .philosophy__caption {
   font-family: var(--font-display);
-  font-size: clamp(11px, 1.15vw, 13px);
+  font-size: clamp(12px, 1.2vw, 14px);
   font-weight: 400;
-  line-height: 1.75;
+  line-height: 1.85;
   color: rgba(255, 255, 255, 0.85);
   letter-spacing: -0.005em;
 }
 
 .philosophy__caption + .philosophy__caption {
-  margin-top: 8px;
+  margin-top: 16px;
 }
 
 /* gradient 우하단으로 (텍스트 영역 추가 어두움) */
