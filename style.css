@@ -343,17 +343,15 @@ footer {
   margin-bottom: 0;
 }
 
-/* === Cards row — Coverflow 결 (가운데 강조, 좌우 흐림) === */
+/* === Cards row — Kinfolk Inside Issue 결 (4 column grid + 5번째 살짝 보임) === */
 .cards-row {
   display: flex;
   gap: 24px;
-  align-items: center;
+  align-items: flex-start;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  width: 100vw;
-  padding: 24px calc(50vw - 170px) 24px; /* 첫·마지막 카드도 가운데 정렬 */
-  margin: 0 calc(50% - 50vw);
+  width: 100%;
+  padding: 24px clamp(24px, 5vw, 64px) 24px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -363,18 +361,12 @@ footer {
 }
 
 .cards-row__card {
-  flex: 0 0 340px;
+  flex: 0 0 calc((100vw - clamp(24px, 5vw, 64px) * 2 - 24px * 3) / 4);
+  max-width: 380px;
   background-color: transparent;
-  scroll-snap-align: center;
   overflow: hidden;
-  opacity: 0.32;
-  transform: scale(0.88);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.cards-row__card.is-active {
   opacity: 1;
-  transform: scale(1);
+  transform: none;
 }
 
 .cards-row__card img {
@@ -385,17 +377,27 @@ footer {
 
 /* 누비 등 work__cards 는 세로 비율 (스크린샷 결, 9:16 고정) */
 .work__cards {
-  padding: 12px calc(50vw - 100px) 12px;
+  padding: 12px clamp(24px, 5vw, 64px);
 }
 
 .work__cards .cards-row__card {
-  flex: 0 0 200px;
+  flex: 0 0 calc((100vw - clamp(24px, 5vw, 64px) * 2 - 24px * 3) / 4);
+  max-width: 240px;
   aspect-ratio: 9 / 16;
 }
 
 .work__cards .cards-row__card img {
   height: 100%;
   object-fit: cover;
+}
+
+/* 좁은 화면 */
+@media (max-width: 720px) {
+  .cards-row__card,
+  .work__cards .cards-row__card {
+    flex: 0 0 70vw;
+    max-width: 320px;
+  }
 }
 
 /* === 3. 작품 목록 === */
@@ -441,32 +443,55 @@ footer {
   margin-bottom: 24px;
 }
 
-/* Kinfolk story 결 — 좌-우 분할 layout */
+/* Kinfolk SOAK STEAM SPLASH 결 — 풀 너비 이미지 + 좌하단 텍스트 overlay */
 .work--featured {
-  display: grid;
-  grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
-  align-items: center;
-  text-align: left;
-  gap: clamp(32px, 6vw, 80px);
-  max-width: 1000px;
-  margin: 0 auto clamp(56px, 9vh, 96px);
-  padding: clamp(32px, 5vh, 56px) 0;
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: 90vh;
+  min-height: 560px;
+  overflow: hidden;
+  padding: 0;
+  display: block;
 }
 
 .work__feature {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  aspect-ratio: 3 / 4;
+  height: 100%;
   background-color: var(--paper-alt);
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  overflow: hidden;
+  z-index: 1;
+}
+
+/* 좌하단 흰 글씨 가독성 위해 어두운 gradient (좌하단 진함) */
+.work--featured::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top right,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.25) 35%,
+    rgba(0, 0, 0, 0) 65%
+  );
+  z-index: 2;
+  pointer-events: none;
 }
 
 .work__feature-meta {
+  position: absolute;
+  left: clamp(24px, 5vw, 56px);
+  bottom: clamp(32px, 5vh, 64px);
+  z-index: 3;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
+  max-width: 540px;
+  color: #ffffff;
 }
 
 .work__feature-label {
@@ -475,39 +500,36 @@ footer {
   font-weight: 500;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--ink-faint);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .work--featured .work__name {
   text-align: left;
-  font-size: clamp(28px, 4vw, 40px);
+  font-size: clamp(32px, 5vw, 56px);
   margin-bottom: 0;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.work--featured .work__name-en,
+.work--featured .work__name-note {
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .work--featured .work__desc {
   text-align: left;
-  font-size: clamp(16px, 1.8vw, 18px);
+  font-size: clamp(16px, 2vw, 20px);
   margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.5;
 }
 
 .work__feature-cta {
   font-family: var(--font-display);
   font-size: 13px;
-  color: var(--ink-faint);
-  margin-top: 12px;
-}
-
-@media (max-width: 720px) {
-  .work--featured {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    text-align: center;
-  }
-
-  .work--featured .work__name,
-  .work--featured .work__desc {
-    text-align: center;
-  }
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 8px;
+  letter-spacing: 0.02em;
 }
 
 .work__meta {
