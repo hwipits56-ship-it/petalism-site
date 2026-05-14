@@ -7,26 +7,31 @@
   const KB_FOLDER = "weave-cards"; // 키보드 ←→ 활성 carousel 폴더
 
   async function detectImages(folder) {
+    // 01.jpg, 1.jpg, 02.jpg, 2.jpg 등 다 시도. 중간 gap 허용.
     const images = [];
     for (let i = 1; i <= MAX_TRIES; i++) {
       const padded = String(i).padStart(2, "0");
+      const noPad = String(i);
       const exts = ["jpg", "jpeg", "png", "webp"];
       let found = null;
-      for (const ext of exts) {
-        const url = `/images/${folder}/${padded}.${ext}`;
-        const ok = await new Promise((resolve) => {
-          const img = new Image();
-          img.onload = () => resolve(true);
-          img.onerror = () => resolve(false);
-          img.src = url;
-        });
-        if (ok) {
-          found = url;
-          break;
+      for (const num of [padded, noPad]) {
+        for (const ext of exts) {
+          const url = `/images/${folder}/${num}.${ext}`;
+          const ok = await new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+            img.src = url;
+          });
+          if (ok) {
+            found = url;
+            break;
+          }
         }
+        if (found) break;
       }
-      if (!found) break;
-      images.push(found);
+      if (found) images.push(found);
+      // gap 허용: 못 찾았어도 break 안 함 (1, 3, 5 같이 띄엄띄엄 OK)
     }
     return images;
   }
