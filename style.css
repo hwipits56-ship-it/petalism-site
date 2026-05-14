@@ -73,12 +73,13 @@ footer {
 /* === 1→2 transition만 fixed transform — 나머지는 normal scroll 자연 흐름 === */
 
 /* 1페이지: Hero만 fixed (스크롤하면 transform으로 위로 사라짐) */
+/* 하단 10vh 여백 — 다음 페이지 미리보기 (Kinfolk 결) */
 .hero {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 90vh;
   overflow: hidden;
   z-index: 10;
   will-change: transform;
@@ -86,18 +87,18 @@ footer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: clamp(72px, 10vh, 100px);
-  padding-bottom: clamp(40px, 6vh, 64px);
+  padding-top: clamp(56px, 8vh, 80px);
+  padding-bottom: clamp(24px, 4vh, 40px);
   background-color: var(--paper);
 }
 
-/* Hero가 fixed라 layout에서 빠짐 → spacer로 그 자리 확보 */
+/* Hero가 fixed라 layout에서 빠짐 → spacer로 그 자리 확보 (90vh) */
 .hero-spacer {
-  height: 100vh;
+  height: 90vh;
   pointer-events: none;
 }
 
-/* 2~4페이지: normal scroll, 자연 흐름 */
+/* 2~4페이지: normal scroll, 자연 흐름 — min-height 100vh 제거하고 콘텐츠 크기로 */
 .philosophy,
 .works,
 .footer {
@@ -106,18 +107,17 @@ footer {
 }
 
 .philosophy {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: clamp(40px, 7vh, 80px) clamp(24px, 5vw, 48px);
   background-color: var(--paper-alt);
+  gap: clamp(28px, 5vh, 56px);
 }
 
 .works {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: clamp(40px, 7vh, 80px) 0;
   background-color: var(--paper);
 }
 
@@ -197,6 +197,12 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Philosophy cover carousel — 더 큼, 4:5 (Kinfolk magazine cover 결) */
+.philosophy__cover .carousel {
+  width: 100%;
+  aspect-ratio: 4 / 5;
 }
 
 .carousel__stage {
@@ -310,14 +316,12 @@ footer {
   display: none;
 }
 
-/* === 2. 페탈리즘 설명 === */
-.philosophy {
-  background-color: var(--paper-alt);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: clamp(40px, 6vh, 72px);
+/* === 2. 페탈리즘 — 큰 cover 이미지 + 그 아래 텍스트 (Kinfolk K59 cover 결) === */
+.philosophy__cover {
+  position: relative;
+  width: min(720px, 60vw);
+  aspect-ratio: 4 / 5;
+  margin: 0 auto;
 }
 
 .philosophy__inner {
