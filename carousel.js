@@ -160,12 +160,30 @@
     });
   });
 
+  // === Work feature hero — 첫 이미지를 풀 너비 background로 ===
+  document.querySelectorAll("[data-work-folder]").forEach((work) => {
+    const folder = work.getAttribute("data-work-folder");
+    if (!folder) return;
+    const feature = work.querySelector("[data-work-feature]");
+    if (!feature) return;
+
+    detectImages(folder).then((images) => {
+      if (images.length === 0) {
+        work.style.display = "none";
+        return;
+      }
+      feature.style.backgroundImage = "url(" + images[0] + ")";
+    });
+  });
+
   // === Cards row (Coverflow — 가운데 카드 강조) — Philosophy·Works ===
   document.querySelectorAll("[data-cards]").forEach((row) => {
     const folder = row.getAttribute("data-cards-folder");
     if (!folder) return;
+    const skipFirst = row.getAttribute("data-skip-first") === "true";
 
     detectImages(folder).then((images) => {
+      if (skipFirst) images = images.slice(1);
       if (images.length === 0) {
         row.style.display = "none";
         return;
