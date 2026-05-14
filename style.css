@@ -285,22 +285,31 @@ footer {
 .cards-row__card {
   flex: 0 0 auto;
   width: 380px;
-  aspect-ratio: 1 / 1;
-  background-color: var(--paper);
+  background-color: transparent;
   scroll-snap-align: center;
   overflow: hidden;
 }
 
 .cards-row__card img {
   width: 100%;
+  height: auto; /* 원본 비율 유지 — 카드뉴스 안 잘림 */
+  display: block;
+}
+
+/* 누비 등 work__cards 는 세로 비율 (스크린샷 결, 9:16 고정) */
+.work__cards .cards-row__card {
+  width: 220px;
+  aspect-ratio: 9 / 16;
+}
+
+.work__cards .cards-row__card img {
   height: 100%;
   object-fit: cover;
 }
 
-/* 누비 등 work__cards 는 세로 비율 (스크린샷 결) */
-.work__cards .cards-row__card {
-  width: 220px;
-  aspect-ratio: 9 / 16;
+/* 카드 사이즈가 다 다르면 align top */
+.cards-row {
+  align-items: flex-start;
 }
 
 /* === 3. 작품 목록 === */
