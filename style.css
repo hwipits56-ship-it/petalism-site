@@ -124,6 +124,82 @@ footer {
   pointer-events: none;
 }
 
+/* === 2.5. Works intro (3페이지 진입 화면 — Philosophy 패턴) === */
+.works-intro {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  padding: 0;
+  background-color: var(--paper);
+  z-index: 3; /* Philosophy(5) 뒤에 자리잡혀 있다가 Philosophy 사라지면 드러남 */
+  will-change: transform;
+}
+
+.works-intro-spacer {
+  height: 100vh;
+  pointer-events: none;
+}
+
+.works-intro__brand {
+  position: absolute;
+  top: clamp(20px, 3vh, 32px);
+  left: clamp(24px, 5vw, 48px);
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.works-intro__brand.is-visible {
+  opacity: 1;
+}
+
+.works-intro__overlay {
+  position: absolute;
+  right: clamp(24px, 5vw, 56px);
+  bottom: clamp(32px, 6vh, 72px);
+  max-width: 440px;
+  text-align: right;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.works-intro__overlay.is-visible {
+  opacity: 1;
+}
+
+.works-intro__label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+
+.works-intro__heading {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.6vw, 28px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.works-intro__caption {
+  font-family: var(--font-display);
+  font-size: clamp(12px, 1.2vw, 14px);
+  font-weight: 400;
+  color: var(--ink-soft);
+  letter-spacing: -0.005em;
+  line-height: 1.7;
+}
+
 .philosophy__bg {
   position: absolute;
   inset: 0;
@@ -535,7 +611,9 @@ footer {
 
 .work__header {
   padding: 0 clamp(24px, 5vw, 64px);
-  margin-bottom: clamp(20px, 3vh, 32px);
+  margin-top: clamp(16px, 2.5vh, 24px);
+  margin-bottom: 0;
+  text-align: right;
 }
 
 .work__label {
@@ -607,8 +685,8 @@ footer {
 .footer {
   background-color: var(--paper-alt);
   text-align: center;
-  padding-top: clamp(72px, 11vh, 112px);
-  padding-bottom: clamp(48px, 8vh, 80px);
+  padding-top: clamp(28px, 4vh, 44px);
+  padding-bottom: clamp(20px, 3vh, 32px);
 }
 
 .footer__inner {
@@ -670,7 +748,8 @@ footer {
   }
 
   .hero__brand,
-  .philosophy__brand {
+  .philosophy__brand,
+  .works-intro__brand {
     top: 20px;
     left: 20px;
   }
