@@ -97,6 +97,13 @@ footer {
   color: var(--navy);
 }
 
+.wordmark-img {
+  display: block;
+  width: 56px;
+  height: 56px;
+  border-radius: 4px;
+}
+
 .hero__title-block {
   text-align: center;
   margin-bottom: clamp(32px, 5vh, 56px);
