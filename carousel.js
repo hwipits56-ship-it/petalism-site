@@ -174,6 +174,14 @@
     });
   });
 
+  // === Philosophy bg — /images/philosophy/bg.jpg 같이 첫 이미지를 풀 너비 background로 ===
+  document.querySelectorAll("[data-philosophy-bg]").forEach((el) => {
+    detectImages("philosophy").then((images) => {
+      if (images.length === 0) return;
+      el.style.backgroundImage = "url(" + images[0] + ")";
+    });
+  });
+
   // === Work feature hero — 첫 이미지를 풀 너비 background로 ===
   document.querySelectorAll("[data-work-folder]").forEach((work) => {
     const folder = work.getAttribute("data-work-folder");

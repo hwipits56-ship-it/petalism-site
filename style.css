@@ -107,13 +107,63 @@ footer {
 }
 
 .philosophy {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: clamp(40px, 7vh, 80px) clamp(24px, 5vw, 48px);
-  background-color: var(--paper-alt);
-  gap: clamp(28px, 5vh, 56px);
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  padding: 0;
+  background-color: var(--navy); /* 이미지 없을 때 fallback */
+}
+
+.philosophy__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+/* 좌하단 흰 글씨 가독성 위해 어두운 gradient */
+.philosophy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top right,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.2) 40%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.philosophy__overlay {
+  position: absolute;
+  left: clamp(24px, 5vw, 56px);
+  bottom: clamp(32px, 6vh, 72px);
+  z-index: 3;
+  max-width: 640px;
+  color: #ffffff;
+}
+
+.philosophy__heading {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4.5vw, 48px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.philosophy__caption {
+  font-family: var(--font-display);
+  font-size: clamp(15px, 1.8vw, 19px);
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: -0.005em;
 }
 
 .works {
@@ -316,36 +366,7 @@ footer {
   display: none;
 }
 
-/* === 2. 페탈리즘 — 큰 cover 이미지 + 그 아래 텍스트 (Kinfolk K59 cover 결) === */
-.philosophy__cover {
-  position: relative;
-  width: min(720px, 60vw);
-  aspect-ratio: 4 / 5;
-  margin: 0 auto;
-}
-
-.philosophy__inner {
-  max-width: 500px;
-  width: 100%;
-}
-
-.philosophy__line {
-  font-family: var(--font-display);
-  font-size: clamp(14px, 1.5vw, 17px);
-  font-weight: 400;
-  letter-spacing: -0.005em;
-  line-height: 1.9;
-  color: var(--ink);
-  margin: clamp(20px, 3vh, 28px) 0;
-}
-
-.philosophy__line:first-child {
-  margin-top: 0;
-}
-
-.philosophy__line:last-child {
-  margin-bottom: 0;
-}
+/* Philosophy 풀 너비 + overlay 결 (Kinfolk Home Tour 결) */
 
 /* === Cards row — Kinfolk Inside Issue 결 (4 column grid + 5번째 살짝 보임) === */
 .cards-row {
