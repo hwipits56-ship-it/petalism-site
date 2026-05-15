@@ -75,15 +75,14 @@ footer {
 
 /* === 1→2 transition만 fixed transform — 나머지는 normal scroll 자연 흐름 === */
 
-/* 1페이지: Hero만 fixed (스크롤하면 transform으로 위로 사라짐) */
-/* 하단 5vh 여백 — 다음 페이지 미리보기 살짝만 (사용자 줄여달라 요청) */
+/* 모든 페이지 fixed top:0 — 자바스크립트가 transform translateY로 위치 제어 */
 .hero {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 95vh; /* fallback */
-  height: 95dvh; /* 모바일 브라우저 UI 차감 자동 */
+  height: 95dvh;
   overflow: hidden;
   z-index: 10;
   will-change: transform;
@@ -94,13 +93,22 @@ footer {
   padding-top: clamp(56px, 8vh, 80px);
   padding-bottom: clamp(12px, 2.5vh, 24px);
   background-color: var(--paper);
+  /* 자바스크립트가 transform translateY 초깃값 적용 (페이지 1은 0) */
 }
 
-/* Hero가 fixed라 layout에서 빠짐 → spacer로 그 자리 확보 (95vh) */
-.hero-spacer {
-  height: 95vh;
-  height: 95dvh;
+/* 페이지 1·2·3 동작 시간 확보 — 4단계 × 95dvh = 380dvh */
+/* 단계: 페이지 1 빠짐 → 페이지 2 이동 → 페이지 3 등장·이동 → 페이지 3 빠짐 */
+.scroll-spacer {
+  height: 380vh;
+  height: 380dvh;
   pointer-events: none;
+}
+
+/* 기존 spacer 모두 제거 — scroll-spacer가 자리 차지 */
+.hero-spacer,
+.philosophy-spacer,
+.works-intro-spacer {
+  display: none;
 }
 
 /* 3~4페이지: normal scroll, 자연 흐름 */

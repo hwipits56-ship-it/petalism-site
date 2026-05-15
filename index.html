@@ -79,10 +79,7 @@
       </div>
     </section>
 
-    <!-- Hero가 fixed라 layout에서 빠짐. spacer로 그 자리 확보 -->
-    <div class="hero-spacer" aria-hidden="true"></div>
-
-    <!-- 페이지 2: Philosophy (fixed, z-index 5 — Hero 뒤에 있다가 드러남) -->
+    <!-- 페이지 2: Philosophy (fixed top:0, JS transform으로 위치 제어) -->
     <section class="philosophy">
       <div class="philosophy__bg" data-philosophy-bg></div>
       <header class="philosophy__brand">
@@ -105,10 +102,7 @@
       </div>
     </section>
 
-    <!-- Philosophy가 fixed라 layout에서 빠짐 → spacer로 그 자리 확보 -->
-    <div class="philosophy-spacer" aria-hidden="true"></div>
-
-    <!-- 페이지 3: Works carousel (fixed 95dvh, z-index 3) — 누비 ↔ 시간 좌우 carousel -->
+    <!-- 페이지 3: Works carousel (fixed top:0, JS transform으로 위치 제어) -->
     <section class="works-intro" data-works-carousel>
       <!-- 슬라이드 배경 (각 프로젝트마다 다른 이미지) -->
       <div class="works-slide is-active" data-works-slide>
@@ -169,10 +163,10 @@
       </div>
     </section>
 
-    <!-- Works intro spacer (95dvh) -->
-    <div class="works-intro-spacer" aria-hidden="true"></div>
+    <!-- 페이지 1·2·3 동작 시간 확보 (4단계 × 95dvh) -->
+    <div class="scroll-spacer" aria-hidden="true"></div>
 
-    <!-- 페이지 4: Footer (압축 — 페이지 3과 자연 이어짐) -->
+    <!-- 페이지 4: Footer (페이지 3 사라진 후 자연 등장) -->
     <footer class="footer">
       <div class="footer__inner">
         <a
@@ -229,8 +223,9 @@
       })();
     </script>
     <script>
-      // === 1→2 transition: Hero(fixed) 사라지면서 Philosophy(fixed, 뒤에 있던) 드러남 ===
-      // 2→3 transition: Philosophy도 fixed → transform으로 위로 사라짐, Works normal scroll
+      // === 옵션 A: 모든 페이지 자바스크립트 transform translateY로 위치 제어 ===
+      // 시작 위치: 페이지 1 = 0, 페이지 2 = +95dvh(화면 하단 5dvh 보임), 페이지 3 = +190dvh(안 보임)
+      // 단계: 페이지 N이 풀로 보일 때까지 대기 → 위로 이동 → 사라짐
       (function () {
         const hero = document.querySelector(".hero");
         if (!hero) return;
@@ -249,67 +244,76 @@
           ? worksIntro.querySelector(".works-intro__page-label")
           : null;
 
-        function ease(t) {
-          return t < 0.5
-            ? 2 * t * t
-            : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        function clamp(value, min, max) {
+          return Math.max(min, Math.min(max, value));
         }
 
         let ticking = false;
         function update() {
           const y = window.scrollY;
           const vh = window.innerHeight;
+          const pageH = vh * 0.95; // 95dvh
 
-          // Hero: 0 ~ 95vh 동안 위로 슬라이드 (페이드 X, translateY만)
-          const heroRaw = Math.max(0, Math.min(1, y / (vh * 0.95)));
-          const heroProgress = ease(heroRaw);
+          // 페이지 1 (Hero):
+          // y 0 ~ pageH: 0 → -pageH (위로 사라짐)
+          // y pageH 이후: -pageH 유지
+          const heroT = clamp(-y, -pageH, 0);
+          hero.style.transform = "translate3d(0," + heroT + "px,0)";
 
-          hero.style.transform =
-            "translate3d(0," + (-heroProgress * 100) + "%,0)";
-
-          // Philosophy brand·overlay: Hero 거의 다 사라진 후 페이드인 (heroRaw 0.85 ~ 1.0)
-          const philosophyVisible = heroRaw >= 0.85;
-          if (philosophyBrand) {
-            philosophyBrand.classList.toggle("is-visible", philosophyVisible);
+          // 페이지 2 (Philosophy):
+          // y 0 ~ pageH: +pageH (대기 — 화면 하단 5dvh만 보임)
+          // y pageH ~ pageH*2: +pageH → 0 (위로 이동, 풀 도달)
+          // y pageH*2 ~ pageH*3: 0 → -pageH (위로 사라짐)
+          let philT;
+          if (y < pageH) {
+            philT = pageH;
+          } else if (y < pageH * 2) {
+            philT = pageH - (y - pageH);
+          } else if (y < pageH * 3) {
+            philT = -(y - pageH * 2);
+          } else {
+            philT = -pageH;
           }
-          if (philosophyOverlay) {
-            philosophyOverlay.classList.toggle("is-visible", philosophyVisible);
-          }
-
-          // Philosophy: 95vh ~ 190vh 동안 위로 슬라이드 (거리 95vh — Hero와 통일)
-          let philRaw = 0;
           if (philosophy) {
-            const philStart = vh * 0.95;
-            philRaw = Math.max(
-              0,
-              Math.min(1, (y - philStart) / (vh * 0.95)),
-            );
-            const philProgress = ease(philRaw);
-            philosophy.style.transform =
-              "translate3d(0," + (-philProgress * 100) + "%,0)";
+            philosophy.style.transform = "translate3d(0," + philT + "px,0)";
           }
 
-          // Works intro brand·page label: Philosophy 거의 다 사라진 후 페이드인
-          const worksIntroVisible = philRaw >= 0.85;
-          if (worksIntroBrand) {
-            worksIntroBrand.classList.toggle("is-visible", worksIntroVisible);
+          // 페이지 3 (Works):
+          // y 0 ~ pageH: +pageH*2 (대기 — 안 보임)
+          // y pageH ~ pageH*2: +pageH*2 → +pageH (위로 이동, 화면 하단 5dvh 보임)
+          // y pageH*2 ~ pageH*3: +pageH → 0 (위로 이동, 풀 도달)
+          // y pageH*3 ~ pageH*4: 0 → -pageH (위로 사라짐)
+          let worksT;
+          if (y < pageH) {
+            worksT = pageH * 2;
+          } else if (y < pageH * 2) {
+            worksT = pageH * 2 - (y - pageH);
+          } else if (y < pageH * 3) {
+            worksT = pageH - (y - pageH * 2);
+          } else if (y < pageH * 4) {
+            worksT = -(y - pageH * 3);
+          } else {
+            worksT = -pageH;
           }
-          if (worksIntroPageLabel) {
-            worksIntroPageLabel.classList.toggle("is-visible", worksIntroVisible);
-          }
-
-          // Works intro: 190vh ~ 285vh 동안 위로 슬라이드 (거리 95vh — Hero·Philosophy와 통일)
           if (worksIntro) {
-            const worksStart = vh * 1.9;
-            const worksRaw = Math.max(
-              0,
-              Math.min(1, (y - worksStart) / (vh * 0.95)),
-            );
-            const worksProgress = ease(worksRaw);
-            worksIntro.style.transform =
-              "translate3d(0," + (-worksProgress * 100) + "%,0)";
+            worksIntro.style.transform = "translate3d(0," + worksT + "px,0)";
           }
+
+          // 페이드인: 페이지가 풀 도달 직전(85%)부터 등장
+          // 페이지 2 풀 도달 = y pageH*2. 페이드인 시작 = y pageH * 1.85
+          // 페이지 3 풀 도달 = y pageH*3. 페이드인 시작 = y pageH * 2.85
+          const philFadeStart = pageH * 1.85;
+          const worksFadeStart = pageH * 2.85;
+
+          const philVisible = y >= philFadeStart;
+          if (philosophyBrand) philosophyBrand.classList.toggle("is-visible", philVisible);
+          if (philosophyOverlay) philosophyOverlay.classList.toggle("is-visible", philVisible);
+
+          const worksVisible = y >= worksFadeStart;
+          if (worksIntroBrand) worksIntroBrand.classList.toggle("is-visible", worksVisible);
+          if (worksIntroPageLabel) worksIntroPageLabel.classList.toggle("is-visible", worksVisible);
         }
+
         window.addEventListener(
           "scroll",
           () => {
