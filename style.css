@@ -707,10 +707,6 @@ footer {
   display: none;
 }
 
-/* Scroll spacer 제거 (normal scroll로 자연스럽게) */
-.scroll-spacer {
-  display: none;
-}
 
 .hero__brand {
   position: absolute;
