@@ -180,7 +180,8 @@
         <a class="footer__link" href="mailto:petalism.studio@gmail.com"
           >petalism.studio@gmail.com</a
         >
-        <p class="footer__legal">페탈리즘 스튜디오 · 523-08-03618</p>
+        <span class="footer__sep">·</span>
+        <span class="footer__legal">523-08-03618</span>
       </div>
     </footer>
 
@@ -243,6 +244,7 @@
         const worksIntroPageLabel = worksIntro
           ? worksIntro.querySelector(".works-intro__page-label")
           : null;
+        const footer = document.querySelector(".footer");
 
         function clamp(value, min, max) {
           return Math.max(min, Math.min(max, value));
@@ -252,64 +254,69 @@
         function update() {
           const y = window.scrollY;
           const vh = window.innerHeight;
-          const pageH = vh * 0.95; // 95dvh
+          const pageH = vh * 0.95; // 95dvh — 페이지 자체 높이
+          const gap = vh * 0.05;   // 5dvh — 화면 위쪽 미점유 영역
+          const stopH = vh * 0.15; // 15dvh — 페이지 2 풀 도달 후 정지 구간 (마그네틱 결)
 
-          // 페이지 1 (Hero):
-          // y 0 ~ pageH: 0 → -pageH (위로 사라짐)
-          // y pageH 이후: -pageH 유지
+          // 효과 위치 ey — 페이지 2 풀 도달 직후 스크롤 흡수 (정지 구간 동안 ey 그대로)
+          const phil2Start = pageH - gap;            // 90dvh — 페이지 2 이동 시작
+          const phil2StopStart = phil2Start + gap;   // 95dvh — 페이지 2 풀 도달 (정지 시작)
+          const phil2StopEnd = phil2StopStart + stopH; // 110dvh — 정지 끝
+          let ey;
+          if (y < phil2StopStart) ey = y;
+          else if (y < phil2StopEnd) ey = phil2StopStart;
+          else ey = y - stopH;
+
+          // 페이지 1 (Hero): 0 ~ pageH 동안 위로 사라짐
           const heroT = clamp(-y, -pageH, 0);
           hero.style.transform = "translate3d(0," + heroT + "px,0)";
 
-          // 페이지 2 (Philosophy):
-          // y 0 ~ pageH: +pageH (대기 — 화면 하단 5dvh만 보임)
-          // y pageH ~ pageH*2: +pageH → 0 (위로 이동, 풀 도달)
-          // y pageH*2 ~ pageH*3: 0 → -pageH (위로 사라짐)
+          // 페이지 2 (Philosophy): 페이지 1 의 끝이 화면 위 gap 라인 닿는 시점부터 이동.
+          // 페이지 1 과 페이지 2 가 붙어서 같이 이동 → 화면 위 미점유 영역이 항상 채워짐
           let philT;
-          if (y < pageH) {
-            philT = pageH;
-          } else if (y < pageH * 2) {
-            philT = pageH - (y - pageH);
-          } else if (y < pageH * 3) {
-            philT = -(y - pageH * 2);
+          if (ey < phil2Start) {
+            philT = 0;
+          } else if (ey < phil2Start + vh) {
+            philT = -(ey - phil2Start);
           } else {
-            philT = -pageH;
+            philT = -vh;
           }
           if (philosophy) {
             philosophy.style.transform = "translate3d(0," + philT + "px,0)";
           }
 
-          // 페이지 3 (Works):
-          // y 0 ~ pageH: +pageH*2 (대기 — 안 보임)
-          // y pageH ~ pageH*2: +pageH*2 → +pageH (위로 이동, 화면 하단 5dvh 보임)
-          // y pageH*2 ~ pageH*3: +pageH → 0 (위로 이동, 풀 도달)
-          // y pageH*3 ~ pageH*4: 0 → -pageH (위로 사라짐)
+          // 페이지 3 (Works): 페이지 2 의 끝이 화면 위 gap 라인 닿는 시점부터 이동.
+          // gap (5dvh) 만큼만 끌어올린 후 멈춤 → 페이지 4 normal flow 로 따라옴
+          const works3Start = phil2Start + pageH;
           let worksT;
-          if (y < pageH) {
-            worksT = pageH * 2;
-          } else if (y < pageH * 2) {
-            worksT = pageH * 2 - (y - pageH);
-          } else if (y < pageH * 3) {
-            worksT = pageH - (y - pageH * 2);
-          } else if (y < pageH * 4) {
-            worksT = -(y - pageH * 3);
+          if (ey < works3Start) {
+            worksT = 0;
+          } else if (ey < works3Start + gap) {
+            worksT = -(ey - works3Start);
           } else {
-            worksT = -pageH;
+            worksT = -gap;
           }
           if (worksIntro) {
             worksIntro.style.transform = "translate3d(0," + worksT + "px,0)";
           }
 
-          // 페이드인: 페이지가 풀 도달 직전(85%)부터 등장
-          // 페이지 2 풀 도달 = y pageH*2. 페이드인 시작 = y pageH * 1.85
-          // 페이지 3 풀 도달 = y pageH*3. 페이드인 시작 = y pageH * 2.85
-          const philFadeStart = pageH * 1.85;
-          const worksFadeStart = pageH * 2.85;
+          // 페이지 4 (Footer): 페이지 3 와 1:1 동기 (페이지 3 의 끝 = 페이지 4 의 시작)
+          // footer top: 95dvh + transform = (gap + worksT) px → 페이지 3 bottom 과 같은 viewport 라인
+          const footerT = gap + worksT;
+          if (footer) {
+            footer.style.transform = "translate3d(0," + footerT + "px,0)";
+          }
 
-          const philVisible = y >= philFadeStart;
+          // 페이드인 시점 (페이지 풀 도달 직전)
+          const philFadeStart = phil2Start - vh * 0.15;
+          const worksFadeStart = phil2Start + vh - vh * 0.15;
+
+          const philVisible = ey >= philFadeStart;
           if (philosophyBrand) philosophyBrand.classList.toggle("is-visible", philVisible);
           if (philosophyOverlay) philosophyOverlay.classList.toggle("is-visible", philVisible);
 
-          const worksVisible = y >= worksFadeStart;
+          const worksVisible = ey >= worksFadeStart;
+          if (worksIntro) worksIntro.classList.toggle("is-visible", worksVisible);
           if (worksIntroBrand) worksIntroBrand.classList.toggle("is-visible", worksVisible);
           if (worksIntroPageLabel) worksIntroPageLabel.classList.toggle("is-visible", worksVisible);
         }

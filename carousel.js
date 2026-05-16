@@ -238,6 +238,74 @@
         card.appendChild(img);
         row.appendChild(card);
       });
+
+      // works-slide 안 cards-row 만 coverflow 결 적용 (중앙 강조 + 양옆 흐림)
+      const isWorksCards = row.closest(".works-slide__cards");
+      if (isWorksCards) {
+        setupCoverflow(row, images.length);
+      }
     });
   });
+
+  // === Coverflow 결: 중앙 카드 강조 + 양옆 카드 작고 흐림. 옆 카드 클릭·swipe 로 이동 ===
+  function setupCoverflow(row, count) {
+    if (count <= 1) return;
+    let activeIdx = 0;
+    const STEP_DESKTOP = 360; // 카드 간 가로 거리 (데스크탑, 카드 1.5배 키워서 비례)
+    const STEP_MOBILE = 230;  // 모바일
+
+    function step() {
+      return window.matchMedia("(max-width: 720px)").matches ? STEP_MOBILE : STEP_DESKTOP;
+    }
+
+    function update() {
+      const cards = row.querySelectorAll(".cards-row__card");
+      const STEP = step();
+      cards.forEach((card, i) => {
+        const offset = i - activeIdx;
+        const abs = Math.abs(offset);
+        const scale = offset === 0 ? 1 : (abs === 1 ? 0.78 : 0.6);
+        const opacity = offset === 0 ? 1 : (abs === 1 ? 0.35 : 0);
+        card.style.transform = "translate(calc(-50% + " + (offset * STEP) + "px), -50%) scale(" + scale + ")";
+        card.style.opacity = opacity;
+        card.style.zIndex = offset === 0 ? 3 : (abs === 1 ? 2 : 0);
+        card.style.pointerEvents = abs <= 1 ? "auto" : "none";
+        card.classList.toggle("is-center", offset === 0);
+      });
+    }
+
+    function goto(i) {
+      activeIdx = ((i % count) + count) % count;
+      update();
+    }
+
+    // 옆 카드 클릭 시 가운데로 (활성 카드는 안 움직임)
+    row.querySelectorAll(".cards-row__card").forEach((card, i) => {
+      card.addEventListener("click", () => {
+        if (i !== activeIdx) goto(i);
+      });
+    });
+
+    // 터치 swipe (모바일)
+    let startX = 0;
+    let dragging = false;
+    row.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].clientX;
+      dragging = true;
+    }, { passive: true });
+    row.addEventListener("touchend", (e) => {
+      if (!dragging) return;
+      const endX = e.changedTouches[0].clientX;
+      const diff = endX - startX;
+      if (Math.abs(diff) > 40) {
+        goto(activeIdx + (diff > 0 ? -1 : 1));
+      }
+      dragging = false;
+    }, { passive: true });
+
+    // 화면 사이즈 변경 시 step 재계산
+    window.addEventListener("resize", update);
+
+    update();
+  }
 })();

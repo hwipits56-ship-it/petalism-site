@@ -96,11 +96,13 @@ footer {
   /* 자바스크립트가 transform translateY 초깃값 적용 (페이지 1은 0) */
 }
 
-/* 페이지 1·2·3 동작 시간 확보 — 4단계 × 95dvh = 380dvh */
-/* 단계: 페이지 1 빠짐 → 페이지 2 이동 → 페이지 3 등장·이동 → 페이지 3 빠짐 */
+/* 페이지 1·2·3·4 동작 시간 확보
+   페이지 4 fixed 라 body height 에 영향 X → scroll-spacer 자체가 body 전체 길이 결정
+   페이지 1 only 90 + 페이지 1·2 겹침 5 + 페이지 2 풀 정지 15 + 페이지 2 only 90 + 페이지 2·3 겹침 5 + 페이지 3·4 transition 5 + 페이지 3·4 한 화면 채움 5 + viewport 100 = 305vh
+   사용자 max scrollY 205vh 시점: 페이지 3 transform -5dvh, 페이지 4 transform 0 (페이지 3·4 한 화면 채움) */
 .scroll-spacer {
-  height: 380vh;
-  height: 380dvh;
+  height: 305vh;
+  height: 305dvh;
   pointer-events: none;
 }
 
@@ -111,25 +113,24 @@ footer {
   display: none;
 }
 
-/* 3~4페이지: normal scroll, 자연 흐름 */
-.works,
-.footer {
+/* 3페이지: normal scroll, 자연 흐름 (페이지 4 는 fixed transform 으로 변경됨) */
+.works {
   position: relative;
   z-index: 1;
 }
 
 .philosophy {
   position: fixed;
-  top: 0;
+  bottom: 0; /* 화면 아래쪽 정렬 — viewport 5~100dvh */
   left: 0;
   width: 100%;
-  height: 95vh; /* fallback — 1페이지와 통일, 다음 페이지 5dvh 미리보기 */
+  height: 95vh;
   height: 95dvh;
   overflow: hidden;
   padding: 0;
   background-color: var(--navy);
   z-index: 5;
-  will-change: transform, opacity;
+  will-change: transform;
 }
 
 .philosophy-spacer {
@@ -138,16 +139,16 @@ footer {
   pointer-events: none;
 }
 
-/* === 3페이지 Works carousel (fixed 95dvh — 누비 ↔ 시간 좌우 전환) === */
+/* === 3페이지 Works carousel — 페이지 2와 같은 자리 (화면 아래쪽 95%) === */
 .works-intro {
   position: fixed;
-  top: 0;
+  bottom: 0; /* 페이지 2와 같이 화면 아래쪽 정렬 */
   left: 0;
   width: 100%;
   height: 95vh;
   height: 95dvh;
   overflow: hidden;
-  background-color: #2a2f38; /* 이미지 없을 때 fallback (어두운 회색 — paper와 결 분리) */
+  background-color: #2a2f38;
   z-index: 3;
   will-change: transform;
 }
@@ -221,12 +222,14 @@ footer {
   opacity: 1;
 }
 
-/* 카드 row — 슬라이드별 토글 */
+/* 카드 row — 슬라이드별 토글 (coverflow 결: 중앙 강조 + 양옆 작고 흐림) */
+/* TODO: 임시 hide — 더 좋은 옵션 찾으면 display 룰만 제거 */
 .works-slide__cards-wrap {
+  display: none;
   position: absolute;
   left: 0;
   right: 0;
-  top: 50%;
+  top: 70%; /* 화면 위에서 70% — 가운데보다 아래쪽 */
   transform: translateY(-50%);
   z-index: 4;
   pointer-events: none;
@@ -243,24 +246,47 @@ footer {
   pointer-events: none;
 }
 
-.works-slide__cards.is-active {
+.works-intro.is-visible .works-slide__cards.is-active {
   opacity: 1;
   pointer-events: auto;
 }
 
 .works-slide__cards .cards-row {
-  padding: 0 clamp(64px, 10vw, 120px); /* 화살표 영역 확보 */
+  position: relative;
+  display: block;
+  overflow: visible;
+  padding: 0;
+  height: 0; /* 카드 absolute — wrap 가운데가 카드 가운데 */
 }
 
 .works-slide__cards .cards-row__card {
-  flex: 0 0 calc((100vw - clamp(64px, 10vw, 120px) * 2 - 16px * 3) / 4);
-  max-width: 200px;
-  aspect-ratio: 9 / 16;
+  position: absolute;
+  left: 25%; /* 좌측 정렬 */
+  top: 0;
+  width: 330px;
+  max-width: 330px;
+  height: auto; /* 이미지 비율 그대로 (PNG 잘림 없음) */
+  flex: none;
+  aspect-ratio: auto;
+  transform: translate(-50%, -50%) scale(0.78);
+  opacity: 0.35;
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.works-slide__cards .cards-row__card.is-center {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  z-index: 3;
 }
 
 .works-slide__cards .cards-row__card img {
-  height: 100%;
-  object-fit: cover;
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* 우하단 프로젝트 정보 */
@@ -285,7 +311,7 @@ footer {
   text-align: right;
 }
 
-.works-slide__meta.is-active {
+.works-intro.is-visible .works-slide__meta.is-active {
   opacity: 1;
 }
 
@@ -301,7 +327,7 @@ footer {
 
 .works-slide__name {
   font-family: var(--font-display);
-  font-size: clamp(24px, 3.4vw, 36px);
+  font-size: clamp(20px, 3.4vw, 36px);
   font-weight: 400;
   letter-spacing: -0.01em;
   color: #ffffff;
@@ -338,32 +364,35 @@ footer {
   letter-spacing: 0.02em;
 }
 
-/* 좌우 화살표 */
+/* 좌우 화살표 — 강조 줄임 (배경·border 제거, 색 흐리게) */
 .works-carousel__arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  color: #ffffff;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.55);
   cursor: pointer;
   z-index: 6;
+  opacity: 0; /* 페이지 3 풀 도달 전 hide */
+  pointer-events: none;
   transition:
-    background 0.3s ease,
-    border-color 0.3s ease;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.3s ease;
+}
+
+.works-intro.is-visible .works-carousel__arrow {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .works-carousel__arrow:hover {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .works-carousel__arrow--prev {
@@ -383,6 +412,14 @@ footer {
   display: flex;
   gap: 10px;
   z-index: 6;
+  opacity: 0; /* 페이지 3 풀 도달 전 hide */
+  pointer-events: none;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.works-intro.is-visible .works-carousel__dots {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .works-carousel__dot {
@@ -400,15 +437,18 @@ footer {
   background: rgba(255, 255, 255, 0.95);
 }
 
-/* 모바일 — 카드 사이즈 줄임, 화살표 작게 */
+/* 모바일 — 카드 사이즈 데스크탑보다 작게 */
 @media (max-width: 720px) {
   .works-slide__cards .cards-row {
-    padding: 0 56px;
+    padding: 0;
+    height: 0;
   }
 
   .works-slide__cards .cards-row__card {
-    flex: 0 0 32vw;
-    max-width: 150px;
+    left: 40%; /* 모바일은 살짝 왼쪽 */
+    width: 220px;
+    max-width: 220px;
+    height: auto;
   }
 
   .works-carousel__arrow {
@@ -662,7 +702,7 @@ footer {
 
 .philosophy__heading {
   font-family: var(--font-display);
-  font-size: clamp(16px, 2vw, 22px);
+  font-size: clamp(14px, 2vw, 22px);
   font-weight: 400;
   letter-spacing: -0.005em;
   line-height: 1.4;
@@ -699,7 +739,7 @@ footer {
 }
 
 .footer {
-  background-color: var(--paper-alt);
+  background-color: #0e0e0e; /* 거의 검정 */
 }
 
 /* break-image 사용 X */
@@ -716,7 +756,7 @@ footer {
 
 .wordmark {
   font-family: var(--font-display);
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 400;
   letter-spacing: 0.01em;
   line-height: 1;
@@ -1069,11 +1109,24 @@ footer {
 }
 
 /* === 4. Footer === */
-/* === Footer 압축 — 페이지 3과 자연 이어짐 === */
+/* === Footer (페이지 4) — 화면 5% 차지. 페이지 3 사라진 뒤 viewport 95~100dvh 자리 === */
 .footer {
-  background-color: var(--paper-alt);
+  position: fixed;
+  top: 95vh; /* fallback */
+  top: 95dvh;
+  left: 0;
+  width: 100%;
+  background-color: #0e0e0e; /* 거의 검정 */
   text-align: center;
-  padding: clamp(16px, 2.5vh, 24px) clamp(16px, 4vw, 32px);
+  height: 5vh; /* fallback */
+  height: 5dvh;
+  padding: 0 clamp(16px, 4vw, 32px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display); /* 가비아 마음결 */
+  z-index: 4;
+  will-change: transform;
 }
 
 .footer__inner {
@@ -1087,30 +1140,28 @@ footer {
 }
 
 .footer__link {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: 12px;
   letter-spacing: -0.005em;
-  color: var(--ink);
+  color: rgba(244, 244, 244, 0.88);
   border-bottom: 1px solid transparent;
   padding-bottom: 1px;
   transition: border-color 0.2s ease, color 0.2s ease;
 }
 
 .footer__link:hover {
-  border-bottom-color: var(--navy);
-  color: var(--navy);
+  border-bottom-color: rgba(244, 244, 244, 0.6);
+  color: #ffffff;
 }
 
 .footer__sep {
-  color: var(--ink-pale);
+  color: rgba(244, 244, 244, 0.35);
   font-size: 12px;
 }
 
 .footer__legal {
-  width: 100%;
   font-size: 10.5px;
-  color: var(--ink-faint);
-  margin-top: 2px;
+  color: rgba(244, 244, 244, 0.55);
 }
 
 /* === Mobile === */
@@ -1118,6 +1169,18 @@ footer {
   section,
   footer {
     padding: 56px 20px;
+  }
+
+  /* footer 모바일 — 좁은 화면에 한 줄로 들어가도록 폰트·간격 줄임 */
+  .footer__inner {
+    gap: 6px;
+  }
+  .footer__link,
+  .footer__sep {
+    font-size: 11px;
+  }
+  .footer__legal {
+    font-size: 9.5px;
   }
 
   .hero {
@@ -1141,7 +1204,7 @@ footer {
   }
 
   .wordmark {
-    font-size: 17px;
+    font-size: 24px;
   }
 
   .carousel__arrow--prev {
